@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATH LAB PAJAS-EDU – Laboratorium Matematika Interaktif</title>
+<style>
+/* =====================================================================
+   MATH LAB PAJAS-EDU  –  CSS (tanpa CDN, 100% offline)
+   ===================================================================== */
+:root{
+  --blue:#2563eb; --blue-d:#1e40af; --sky:#e0f2fe; --sky2:#bae6fd;
+  --ink:#0f172a; --mut:#64748b; --line:#dbeafe;
+  --green:#16a34a; --orange:#ea580c; --purple:#9333ea; --red:#dc2626; --amber:#f59e0b;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:17px}
+body{margin:0;min-height:100vh;color:var(--ink);
+  font-family:"Nunito","Fredoka","Trebuchet MS","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+  background:#eff6ff;
+  background-image:radial-gradient(#bfdbfe 2px,transparent 2px),radial-gradient(#dbeafe 2px,#eff6ff 2px);
+  background-size:44px 44px;background-position:0 0,22px 22px;
+  user-select:none;-webkit-user-select:none;overflow-x:hidden}
+h1,h2,h3{margin:0;font-family:"Fredoka","Trebuchet MS","Segoe UI",system-ui,sans-serif}
+button{font-family:inherit;cursor:pointer}
+.hidden{display:none!important}
+.wrap{max-width:1800px;margin:0 auto;padding:0 14px}
+
+/* ---------- Tombol ---------- */
+.btn{border:0;border-radius:16px;min-height:50px;padding:10px 18px;font-weight:800;font-size:1rem;color:#fff;
+  box-shadow:0 5px 0 rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s,filter .12s;position:relative;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;line-height:1.15}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+.btn:disabled{opacity:.45;pointer-events:none}
+.b-blue{background:linear-gradient(#3b82f6,#1d4ed8)} .b-green{background:linear-gradient(#4ade80,#16a34a)}
+.b-orange{background:linear-gradient(#fb923c,#ea580c)} .b-purple{background:linear-gradient(#c084fc,#9333ea)}
+.b-red{background:linear-gradient(#f87171,#dc2626)} .b-yellow{background:linear-gradient(#fde047,#eab308);color:#422006}
+.b-gray{background:linear-gradient(#fff,#e2e8f0);color:#334155;box-shadow:0 5px 0 #cbd5e1}
+.b-sm{min-height:42px;padding:6px 12px;font-size:.92rem;border-radius:13px}
+.b-round{width:50px;padding:0;font-size:1.5rem}
+
+/* ---------- Kartu & tata letak ---------- */
+.card{background:#fff;border:3px solid var(--line);border-radius:22px;padding:14px;box-shadow:0 8px 22px rgba(30,64,175,.09)}
+.card.tint{background:#f8fbff}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.row.c{justify-content:center}.row.sb{justify-content:space-between}
+.col{display:flex;flex-direction:column;gap:12px}
+.grid2{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;align-items:start}
+.grid2.eq{grid-template-columns:1fr 1fr}
+.grid2.wide{grid-template-columns:1.6fr 1fr}
+.grid3{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center}
+@media (max-width:900px){.grid2,.grid2.eq,.grid2.wide,.grid3{grid-template-columns:1fr}}
+.lbl{font-size:.78rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.pill{display:inline-block;border-radius:999px;padding:3px 12px;font-weight:800;font-size:.85rem;background:var(--sky);color:var(--blue-d)}
+.center{text-align:center}
+.big{font-size:1.25rem;font-weight:800}
+.sec-title{font-size:1.35rem;font-weight:700;color:var(--blue-d);display:flex;align-items:center;gap:10px}
+
+/* ---------- Header ---------- */
+header.top{position:sticky;top:0;z-index:30;background:linear-gradient(90deg,#1d4ed8,#2563eb 55%,#0ea5e9);color:#fff;
+  border-bottom:4px solid #1e3a8a;box-shadow:0 6px 18px rgba(30,58,138,.3)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:5px;padding-bottom:5px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;cursor:pointer}
+.logo{width:46px;height:46px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;border:3px solid #93c5fd;flex:none}
+.brand h1{font-size:clamp(1.05rem,2.4vw,1.7rem);letter-spacing:.02em;line-height:1.05}
+.brand small{display:block;font-weight:800;font-size:.78rem;opacity:.9;letter-spacing:.08em}
+.hbtns{display:flex;gap:8px;flex-wrap:wrap}
+.hbtns .btn{min-height:40px;padding:4px 12px;font-size:.92rem}
+
+/* ---------- Pemandu ---------- */
+.guide{display:flex;align-items:center;gap:12px;margin:8px 0;background:#fff;border:3px solid var(--sky2);border-radius:22px;padding:5px 14px;box-shadow:0 6px 16px rgba(14,165,233,.12)}
+.guide .av{width:46px;height:46px;flex:none;background:var(--sky);border-radius:20px;border:3px solid #7dd3fc;display:flex;align-items:center;justify-content:center;animation:floaty 3.6s ease-in-out infinite}
+.guide .gtxt{flex:1;min-width:0}
+.guide .gname{font-size:.75rem;font-weight:900;letter-spacing:.08em;color:#0284c7}
+.guide .gmsg{font-weight:800;font-size:1.02rem;line-height:1.3}
+.starbox{flex:none;display:flex;align-items:center;gap:8px;background:#fffbeb;border:3px solid #fde68a;border-radius:20px;padding:6px 14px;cursor:pointer}
+.starbox b{font-size:1.5rem;color:#b45309;line-height:1}
+.starbox span{font-size:1.7rem}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+/* ---------- Halaman utama ---------- */
+.hero{background:linear-gradient(135deg,#2563eb,#0ea5e9);color:#fff;border-radius:26px;padding:14px 22px;display:flex;align-items:center;gap:22px;box-shadow:0 12px 28px rgba(37,99,235,.3);margin-bottom:18px}
+.hero h2{font-size:clamp(1.3rem,3vw,2.1rem);margin-bottom:6px}
+.hero p{margin:0;font-weight:700;opacity:.95;line-height:1.45}
+.hero .tag{margin-top:10px;display:inline-block;background:rgba(255,255,255,.2);border-radius:999px;padding:4px 14px;font-weight:800}
+.hero .hav{flex:none;width:96px;height:96px;background:#fff;border-radius:34px;display:flex;align-items:center;justify-content:center;animation:floaty 3.6s ease-in-out infinite}
+@media (max-width:700px){.hero{flex-direction:column;text-align:center}}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;padding-bottom:10px}
+@media (max-width:980px){.menu{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){.menu{grid-template-columns:1fr}}
+.mcard{border:0;text-align:left;border-radius:26px;padding:16px;color:#fff;min-height:150px;display:flex;flex-direction:column;gap:6px;
+  box-shadow:0 8px 0 rgba(0,0,0,.22),0 14px 24px rgba(0,0,0,.12);transition:transform .15s,box-shadow .15s}
+.mcard:hover{transform:translateY(-3px)}
+.mcard:active{transform:translateY(5px);box-shadow:0 3px 0 rgba(0,0,0,.22)}
+.mcard .ic{font-size:3rem;line-height:1}
+.mcard h3{font-size:1.35rem}
+.mcard p{margin:0;font-weight:700;font-size:.95rem;opacity:.95;line-height:1.35;flex:1}
+.mcard .prog{font-weight:900;font-size:.85rem;background:rgba(255,255,255,.25);border-radius:999px;padding:3px 12px;align-self:flex-start}
+.m1{background:linear-gradient(135deg,#f97316,#ea580c)} .m2{background:linear-gradient(135deg,#3b82f6,#1d4ed8)}
+.m3{background:linear-gradient(135deg,#14b8a6,#0f766e)} .m4{background:linear-gradient(135deg,#a855f7,#7e22ce)}
+.m5{background:linear-gradient(135deg,#f59e0b,#d97706)} .m6{background:linear-gradient(135deg,#64748b,#334155)}
+
+/* ---------- Tab lab ---------- */
+.labhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.labhead h2{font-size:clamp(1.2rem,2.6vw,1.8rem);color:var(--blue-d);flex:1;min-width:200px}
+.tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:12px}
+.tab{border:0;border-radius:16px;min-height:44px;padding:8px 12px;font-weight:900;font-size:1rem;background:#fff;color:#334155;
+  box-shadow:0 5px 0 #cbd5e1;border:2px solid #e2e8f0;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .12s}
+.tab:active{transform:translateY(3px);box-shadow:0 2px 0 #cbd5e1}
+.tab.active{background:linear-gradient(#3b82f6,#1d4ed8);color:#fff;border-color:#1e40af;box-shadow:0 5px 0 #1e3a8a}
+.tabs.sub .tab{min-height:46px;font-size:.92rem}
+.tabs.sub .tab.active{background:linear-gradient(#fb923c,#ea580c);border-color:#c2410c;box-shadow:0 5px 0 #9a3412}
+
+/* ---------- SVG & objek ---------- */
+.stage{background:linear-gradient(#f0f9ff,#fff);border:3px dashed var(--sky2);border-radius:24px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.stage svg{display:block;max-width:100%}
+.sq{aspect-ratio:1/1;max-height:calc(100vh - 340px);min-height:210px}
+.fsvg{width:100%;height:100%;max-width:300px;max-height:300px;filter:drop-shadow(0 4px 4px rgba(0,0,0,.12))}
+.svg-slice{cursor:pointer;transition:filter .2s}
+.svg-slice:hover{filter:brightness(1.08)}
+.hot{cursor:pointer}
+.board{touch-action:none;background:#fff;border:3px solid var(--sky2);border-radius:20px;width:100%;display:block}
+.sitem{cursor:grab}.sitem.drag{cursor:grabbing}
+.pulse{animation:pulse .7s ease-in-out infinite alternate}
+@keyframes pulse{from{opacity:.35}to{opacity:1}}
+.fade-in{animation:pop .35s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{0%{transform:scale(.85);opacity:0}100%{transform:scale(1);opacity:1}}
+.shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+
+/* ---------- Komponen ---------- */
+.picker{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:6px}
+.pk{border:3px solid #e2e8f0;background:#fff;border-radius:18px;padding:6px 4px;font-weight:800;font-size:.82rem;color:#334155;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:70px;transition:all .12s}
+.pk.active{border-color:#2563eb;background:#eff6ff;box-shadow:0 0 0 3px #bfdbfe}
+.pk:active{transform:scale(.96)}
+.stepper{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f1f5f9;border-radius:16px;padding:8px 12px}
+.stepper .sv{font-size:1.7rem;font-weight:900;min-width:2.2ch;text-align:center;color:var(--blue-d)}
+.infobox{background:#fffbeb;border:3px solid #fde68a;border-radius:20px;padding:14px 16px;line-height:1.5;font-weight:700}
+.okbox{background:#ecfdf5;border-color:#6ee7b7}.badbox{background:#fff1f2;border-color:#fda4af}
+.formula{background:#eff6ff;border:3px solid #bfdbfe;border-radius:20px;padding:12px 16px;font-weight:900;font-size:1.15rem;min-height:64px;line-height:1.55}
+.frac{display:inline-flex;flex-direction:column;align-items:center;background:#fff;border:3px solid #86efac;border-radius:18px;padding:6px 20px;min-width:90px}
+.frac .n{font-size:2.6rem;font-weight:900;color:#ea580c;line-height:1}.frac .d{font-size:2.6rem;font-weight:900;color:#0284c7;line-height:1}
+.frac .bar{width:64px;height:6px;border-radius:9px;background:#334155;margin:6px 0}
+.frac.sm .n,.frac.sm .d{font-size:1.7rem}.frac.sm{min-width:70px;padding:4px 14px}.frac.sm .bar{width:44px;height:5px;margin:3px 0}
+.bar-track{height:16px;border-radius:99px;background:#e2e8f0;overflow:hidden}
+.bar-fill{height:100%;transition:width .35s}
+.sym{width:104px;height:104px;border-radius:50%;color:#fff;font-size:4rem;font-weight:900;display:flex;align-items:center;justify-content:center;border:5px solid #fff;box-shadow:0 8px 18px rgba(0,0,0,.2)}
+.seesaw{width:180px;height:14px;background:#334155;border-radius:99px;transition:transform .6s cubic-bezier(.34,1.56,.64,1);display:flex;justify-content:space-between;align-items:center;padding:0 6px;margin:34px 0 0}
+.seesaw i{font-style:normal;width:34px;height:34px;border-radius:9px;color:#fff;border:2px solid #fff;font-weight:900;display:flex;align-items:center;justify-content:center;margin-top:-34px}
+.tri{width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-bottom:26px solid #f59e0b}
+.opt{border:0;border-radius:20px;min-height:72px;font-size:1.5rem;font-weight:900;color:#fff;padding:8px;box-shadow:0 6px 0 rgba(0,0,0,.25);transition:transform .1s}
+.opt:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.25)}
+.opt.txt{font-size:1.15rem}
+.opt.ok{background:linear-gradient(#4ade80,#16a34a)!important}.opt.bad{background:linear-gradient(#f87171,#dc2626)!important}
+.opt.dim{opacity:.45;pointer-events:none}
+.opt.img{background:#fff;color:#0f172a;border:3px solid #bfdbfe;box-shadow:0 6px 0 #bfdbfe;display:flex;align-items:center;justify-content:center}
+.optgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:320px;margin:0 auto}
+.numpad .btn{min-height:46px;font-size:1.3rem}
+.numin{width:100%;max-width:320px;display:block;margin:0 auto 8px;text-align:center;font-size:2rem;font-weight:900;border:4px solid #93c5fd;border-radius:18px;padding:4px;min-height:58px;background:#fff;color:var(--blue-d)}
+.swatch{width:42px;height:42px;border-radius:50%;border:4px solid #fff;box-shadow:0 0 0 2px #cbd5e1;padding:0}
+.swatch.on{box-shadow:0 0 0 4px #1e40af}
+.chk{display:flex;align-items:center;gap:8px;font-weight:800}
+.chk .bx{width:26px;height:26px;border-radius:8px;border:3px solid #cbd5e1;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.95rem;flex:none}
+.chk.ok .bx{background:#16a34a;border-color:#16a34a}
+.slider{width:100%;height:36px;accent-color:#2563eb}
+.ach{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:16px;background:#f1f5f9;font-weight:800}
+.ach.ok{background:#ecfdf5}.ach .s{font-size:1.4rem;filter:grayscale(1);opacity:.45}.ach.ok .s{filter:none;opacity:1}
+.badge{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;padding:12px 8px;border-radius:20px;background:#f1f5f9;font-weight:800;font-size:.85rem}
+.badge .e{font-size:2.4rem;filter:grayscale(1);opacity:.35}.badge.ok{background:#fef9c3}.badge.ok .e{filter:none;opacity:1}
+table.hist{width:100%;border-collapse:collapse;font-weight:700}
+table.hist th,table.hist td{padding:8px 10px;border-bottom:2px solid #e2e8f0;text-align:left}
+table.hist th{color:var(--mut);font-size:.8rem;text-transform:uppercase}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:80;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal .box{background:#fff;border-radius:28px;padding:24px;max-width:560px;width:100%;max-height:90vh;overflow:auto;border:4px solid #93c5fd}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(120px);background:#1e3a8a;color:#fff;font-weight:900;border-radius:999px;padding:12px 24px;z-index:90;transition:transform .35s cubic-bezier(.34,1.56,.64,1);box-shadow:0 10px 24px rgba(0,0,0,.3);max-width:92vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.confetti{position:fixed;top:-40px;z-index:95;pointer-events:none;animation:fall 2s ease-in forwards;font-size:2rem}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.6}}
+main.wrap{padding-bottom:6px}
+footer{text-align:center;padding:16px;font-weight:800;font-size:.85rem;color:#1e3a8a;background:#dbeafe;border-top:3px solid #bfdbfe}
+</style>
+</head>
+<body>
+
+<!-- ============================ HEADER ============================ -->
+<header class="top">
+  <div class="wrap">
+    <div class="brand" onclick="go('home')" title="Kembali ke menu utama">
+      <div class="logo">
+        <svg viewBox="0 0 100 100" width="44" height="44">
+          <polygon points="50,8 92,46 8,46" fill="#f97316"/>
+          <rect x="14" y="52" width="34" height="34" rx="4" fill="#2563eb"/>
+          <circle cx="72" cy="69" r="19" fill="#22c55e"/>
+        </svg>
+      </div>
+      <div><h1>MATH LAB PAJAS-EDU</h1><small>LABORATORIUM MATEMATIKA INTERAKTIF</small></div>
+    </div>
+    <div class="hbtns">
+      <button id="btnHome" class="btn b-orange hidden" onclick="go('home')">🏠 Menu Lab</button>
+      <button id="btnSound" class="btn b-yellow" onclick="toggleSound()">🔊 Suara: ON</button>
+      <button class="btn b-green" onclick="toggleFullscreen()">⛶ Layar Penuh</button>
+      <button class="btn b-gray" onclick="showInfo()">ℹ️ Info</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- Pemandu PAJAS-EDU -->
+  <div class="guide">
+    <div class="av" data-avatar="1"></div>
+    <div class="gtxt">
+      <div class="gname">PAJAS-EDU · GURU PEMANDU</div>
+      <div class="gmsg" id="guideMsg">Ayo kita mulai eksperimen!</div>
+    </div>
+  </div>
+
+  <!-- ============================ HOME ============================ -->
+  <section id="view-home">
+    <div class="hero">
+      <div class="hav" data-avatar="1"></div>
+      <div>
+        <h2>Selamat Datang di Laboratorium Matematika PAJAS-EDU!</h2>
+        <p>Di sini kamu bisa belajar sambil bereksperimen. Mari mengenal pecahan dan berbagai bentuk bangun datar, lalu temukan rahasia matematika! Pilih lab yang ingin kamu masuki.</p>
+        <span class="tag">“Ayo Bereksperimen dan Temukan Keajaiban Bangun Datar!”</span>
+      </div>
+    </div>
+    <div class="menu" id="menuGrid"></div>
+  </section>
+
+  <!-- ============================ LAB PECAHAN ============================ -->
+  <section id="view-pecahan" class="hidden">
+    <div class="labhead"><button class="btn b-gray" onclick="go('home')">⬅ Menu Lab</button><h2>🍕 Laboratorium Pecahan</h2></div>
+    <div class="tabs" id="pec-tabs"></div>
+
+    <div id="pec-p-explore" class="grid2">
+      <div class="card">
+        <div class="lbl center" style="margin-bottom:8px">Pilih benda simulasi di meja lab</div>
+        <div class="picker" id="exShapes"></div>
+        <div class="stage sq" style="max-width:440px;margin:14px auto 8px"><div id="exploreSvg" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:14px"></div></div>
+        <div class="center"><span class="pill">👆 Klik bagian potongan untuk menambah / mengurangi arsiran</span></div>
+        <div class="row c" style="margin-top:12px">
+          <button class="btn b-red b-sm" onclick="exSet(0,PEC.ex.den)">🧽 Kosongkan (0)</button>
+          <button class="btn b-green b-sm" onclick="exSet(PEC.ex.den,PEC.ex.den)">✅ Arsir Penuh (1 Utuh)</button>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card"><div class="sec-title">⚡ Pilih Pecahan Cepat</div><div class="picker" id="exPresets" style="grid-template-columns:repeat(5,1fr);margin-top:10px"></div></div>
+        <div class="card">
+          <div class="sec-title">🎛️ Mesin Pengatur Pecahan</div>
+          <div class="row c" style="margin:12px 0">
+            <div class="frac"><span class="n" id="exNum">1</span><span class="bar"></span><span class="d" id="exDen">2</span></div>
+            <div class="col" style="flex:1;min-width:200px">
+              <div class="stepper" style="background:#fff7ed"><div><b style="color:#c2410c">Pembilang (atas)</b><div class="lbl">bagian yang diarsir</div></div>
+                <div class="row"><button class="btn b-orange b-sm b-round" onclick="exNum(-1)">−</button><button class="btn b-orange b-sm b-round" onclick="exNum(1)">+</button></div></div>
+              <div class="stepper" style="background:#f0f9ff"><div><b style="color:#0369a1">Penyebut (bawah)</b><div class="lbl">total seluruh potongan</div></div>
+                <div class="row"><button class="btn b-blue b-sm b-round" onclick="exDen(-1)">−</button><button class="btn b-blue b-sm b-round" onclick="exDen(1)">+</button></div></div>
+            </div>
+          </div>
+          <div class="infobox">
+            <div class="row sb"><span class="lbl">Cara membaca &amp; artinya</span><span class="pill" id="exPct">50% Utuh</span></div>
+            <div class="big" id="exRead" style="margin:4px 0"></div>
+            <div id="exMean"></div>
+            <div id="exEq" style="margin-top:8px;color:#047857"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pec-p-compare" class="hidden">
+      <div class="card row sb" style="margin-bottom:16px">
+        <div class="row"><span class="lbl">Bentuk benda:</span><span class="row" id="cmShapes"></span></div>
+        <div class="row"><span class="lbl">Coba bandingkan:</span><span class="row" id="cmPairs"></span></div>
+      </div>
+      <div class="grid3">
+        <div class="card center" style="border-color:#fdba74">
+          <div class="row sb"><span class="pill" style="background:#ffedd5;color:#9a3412">Pecahan A (kiri)</span><span class="row" id="cmQuickL"></span></div>
+          <div id="cmSvgL" style="width:min(260px,70vw);height:min(260px,70vw);margin:8px auto"></div>
+          <div class="row c" style="background:#fff7ed;border-radius:18px;padding:8px">
+            <div class="frac sm"><span class="n" id="cmNumL">1</span><span class="bar"></span><span class="d" id="cmDenL">2</span></div>
+            <div class="col" style="gap:6px"><div class="row sb"><b>Arsir</b><span class="row"><button class="btn b-orange b-sm b-round" onclick="cmAdj('left',-1,0)">−</button><button class="btn b-orange b-sm b-round" onclick="cmAdj('left',1,0)">+</button></span></div>
+              <div class="row sb"><b>Potongan</b><span class="row"><button class="btn b-gray b-sm b-round" onclick="cmAdj('left',0,-1)">−</button><button class="btn b-gray b-sm b-round" onclick="cmAdj('left',0,1)">+</button></span></div></div>
+          </div>
+        </div>
+
+        <div class="card center" style="border-color:#fcd34d;min-width:240px">
+          <div class="lbl">Hasil perbandingan</div>
+          <div class="row c"><div class="sym" id="cmSym">&gt;</div></div>
+          <div class="pill" id="cmVerdict" style="margin:6px 0"></div>
+          <div class="row c"><div id="cmBeam" class="seesaw"><i style="background:#fb923c">A</i><i style="background:#0ea5e9">B</i></div></div>
+          <div class="row c"><div class="tri"></div></div>
+          <div class="col" style="margin-top:12px;background:#f8fafc;border-radius:18px;padding:10px;text-align:left;gap:8px">
+            <div><div class="row sb"><b style="color:#c2410c">Pecahan A</b><b id="cmBarLblL"></b></div><div class="bar-track"><div class="bar-fill" id="cmBarL" style="background:#f97316"></div></div></div>
+            <div><div class="row sb"><b style="color:#0369a1">Pecahan B</b><b id="cmBarLblR"></b></div><div class="bar-track"><div class="bar-fill" id="cmBarR" style="background:#0ea5e9"></div></div></div>
+          </div>
+          <p id="cmExplain" style="font-weight:800;font-size:.92rem;line-height:1.45;margin:10px 0 0"></p>
+        </div>
+
+        <div class="card center" style="border-color:#7dd3fc">
+          <div class="row sb"><span class="pill">Pecahan B (kanan)</span><span class="row" id="cmQuickR"></span></div>
+          <div id="cmSvgR" style="width:min(260px,70vw);height:min(260px,70vw);margin:8px auto"></div>
+          <div class="row c" style="background:#f0f9ff;border-radius:18px;padding:8px">
+            <div class="frac sm"><span class="n" id="cmNumR" style="color:#0284c7">1</span><span class="bar"></span><span class="d" id="cmDenR">3</span></div>
+            <div class="col" style="gap:6px"><div class="row sb"><b>Arsir</b><span class="row"><button class="btn b-blue b-sm b-round" onclick="cmAdj('right',-1,0)">−</button><button class="btn b-blue b-sm b-round" onclick="cmAdj('right',1,0)">+</button></span></div>
+              <div class="row sb"><b>Potongan</b><span class="row"><button class="btn b-gray b-sm b-round" onclick="cmAdj('right',0,-1)">−</button><button class="btn b-gray b-sm b-round" onclick="cmAdj('right',0,1)">+</button></span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pec-p-quiz" class="hidden">
+      <div class="card" style="max-width:860px;margin:0 auto;border-color:#d8b4fe">
+        <div class="row sb" style="border-bottom:2px solid #f3e8ff;padding-bottom:10px;margin-bottom:12px">
+          <div class="row"><span class="pill" style="background:#9333ea;color:#fff">Soal <span id="pqNo">1</span>/5</span><span class="pill" id="pqType" style="background:#fef3c7;color:#92400e"></span></div>
+          <div class="row"><b>Benar: <span id="pqScore" style="color:#059669;font-size:1.3rem">0</span></b></div>
+        </div>
+        <h3 id="pqTitle" class="center" style="font-size:1.35rem;margin-bottom:12px"></h3>
+        <div id="pqStage" class="stage" style="min-height:200px;padding:8px;gap:22px;flex-wrap:wrap;margin-bottom:10px"></div>
+        <div id="pqAnswers"></div>
+        <div id="pqFeedback" class="hidden center" style="margin-top:14px"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ LAB BANGUN DATAR ============================ -->
+  <section id="view-bangun" class="hidden">
+    <div class="labhead"><button class="btn b-gray" onclick="go('home')">⬅ Menu Lab</button><h2>📐 Laboratorium Bangun Datar</h2></div>
+    <div class="tabs" id="bd-tabs"></div>
+
+    <div id="bd-p-kenal">
+      <div class="card" style="margin-bottom:16px"><div class="lbl center" style="margin-bottom:8px">Pilih bangun datar</div><div class="picker" id="kenalPicker"></div></div>
+      <div class="grid2 eq">
+        <div class="card center">
+          <div class="stage sq" style="max-width:480px;margin:0 auto"><div id="kenalStage" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform .25s"></div></div>
+          <div class="row c" style="margin-top:12px">
+            <button class="btn b-blue b-round" onclick="kenalZoom(-0.2)" title="Perkecil">−</button>
+            <button class="btn b-gray b-sm" onclick="kenalZoom(0)">🔍 Ukuran Normal</button>
+            <button class="btn b-blue b-round" onclick="kenalZoom(0.2)" title="Perbesar">+</button>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card" id="kenalInfo"></div>
+          <div class="row">
+            <button class="btn b-blue" onclick="kenalStep(-1)">⬅ Sebelumnya</button>
+            <button class="btn b-blue" onclick="kenalStep(1)">Berikutnya ➡</button>
+            <button class="btn b-orange" onclick="kenalTry()">✏️ Coba Bangun Ini</button>
+            <button class="btn b-gray" onclick="go('home')">🏠 Kembali ke Menu</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="bd-p-sifat" class="hidden">
+      <div class="tabs sub" id="sf-tabs"></div>
+      <div class="grid2 eq">
+        <div class="card">
+          <div class="lbl center" style="margin-bottom:8px">Pilih bangun</div>
+          <div class="picker" id="sfPicker"></div>
+          <div class="stage sq" style="max-width:480px;margin:14px auto 0"><svg id="sfSvg" viewBox="-10 -10 220 220" style="width:100%;height:100%"></svg></div>
+        </div>
+        <div class="card"><h3 id="sfTitle" style="margin-bottom:8px;color:#1e40af"></h3><div id="sfBody" class="col"></div></div>
+      </div>
+    </div>
+
+    <div id="bd-p-studio" class="hidden">
+      <div class="grid2 wide">
+        <div class="card">
+          <svg id="studioSvg" class="board" viewBox="0 0 800 500"></svg>
+          <div class="row c" style="margin-top:12px">
+            <button class="btn b-blue b-round" onclick="studioSize(-0.15)" title="Perkecil">−</button>
+            <button class="btn b-blue b-round" onclick="studioSize(0.15)" title="Perbesar">+</button>
+            <button class="btn b-purple b-sm" onclick="studioRot(-15)">⟲ Putar</button>
+            <button class="btn b-purple b-sm" onclick="studioRot(15)">⟳ Putar</button>
+            <button class="btn b-red b-sm" onclick="studioDel()">🗑 Hapus</button>
+            <button class="btn b-orange b-sm" onclick="studioReset()">♻ Reset</button>
+            <button class="btn b-green b-sm" onclick="studioSave()">💾 Simpan Karya</button>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card"><div class="lbl" style="margin-bottom:6px">Tambah bentuk ke papan</div><div class="picker" id="studioShapes"></div></div>
+          <div class="card"><div class="lbl" style="margin-bottom:6px">Warna bentuk terpilih</div><div class="row" id="studioColors"></div></div>
+          <div class="card"><div class="lbl" style="margin-bottom:6px">Tantangan kreasi</div><div id="studioChallenge" class="col"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="bd-p-susun" class="hidden">
+      <div class="card" style="margin-bottom:16px"><div class="lbl" style="margin-bottom:6px">Pilih gambar yang akan disusun</div><div class="row" id="susunBtns"></div></div>
+      <div class="grid2 wide">
+        <div class="card">
+          <svg id="susunSvg" class="board" viewBox="0 0 960 420"></svg>
+          <div class="row" style="margin-top:12px;flex-wrap:nowrap">
+            <div style="flex:1"><div class="bar-track"><div class="bar-fill" id="susunBar" style="background:#22c55e;width:0"></div></div><div class="lbl" id="susunTxt" style="margin-top:4px"></div></div>
+            <button class="btn b-yellow b-sm" onclick="susunHint()">💡 Petunjuk</button>
+            <button class="btn b-orange b-sm" onclick="susunReset()">🔄 Ulangi</button>
+          </div>
+        </div>
+        <div class="card center">
+          <div class="lbl">Contoh gambar target</div>
+          <svg id="susunPrev" viewBox="200 0 360 420" style="width:100%;max-width:300px;max-height:300px"></svg>
+          <div id="susunMsg" class="infobox" style="margin-top:8px"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ LAB KELILING & LUAS ============================ -->
+  <section id="view-kell" class="hidden">
+    <div class="labhead"><button class="btn b-gray" onclick="go('home')">⬅ Menu Lab</button><h2>📏 Laboratorium Keliling dan Luas</h2></div>
+    <div class="tabs" id="kl-tabs"></div>
+    <div id="kl-p-keliling"></div>
+    <div id="kl-p-luas" class="hidden"></div>
+  </section>
+
+  <!-- ============================ TANTANGAN ============================ -->
+  <section id="view-tantangan" class="hidden">
+    <div class="labhead"><button class="btn b-gray" onclick="go('home')">⬅ Menu Lab</button><h2>🏆 Tantangan Matematika</h2></div>
+    <div id="tq-menu"></div>
+    <div id="tq-play" class="hidden"></div>
+    <div id="tq-result" class="hidden"></div>
+  </section>
+
+  <!-- ============================ PETUNJUK ============================ -->
+  <section id="view-petunjuk" class="hidden">
+    <div class="labhead"><button class="btn b-gray" onclick="go('home')">⬅ Menu Lab</button><h2>📖 Petunjuk Penggunaan</h2></div>
+    <div id="petunjukBody"></div>
+  </section>
+
+</main>
+
+
+<div id="modal" class="modal hidden" onclick="if(event.target===this)closeModal()"><div class="box" id="modalBox"></div></div>
+<div id="toast" class="toast"></div>
+
+<script>
+'use strict';
+/* =====================================================================
+   MATH LAB PAJAS-EDU – JAVASCRIPT
+   Bagian 1: Utilitas, penyimpanan lokal, suara, navigasi, komponen bersama
+   ===================================================================== */
+
+/* ---------- Utilitas ---------- */
+const $ = (id) => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+function rand(n) { return Math.floor(Math.random() * n); }
+function pick(a) { return a[rand(a.length)]; }
+function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = rand(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function randInt(a, b) { return a + rand(b - a + 1); }
+function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
+function fmt(n) { return (Math.round(n * 100) / 100).toString().replace('.', ','); }
+function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+
+/* ---------- Penyimpanan lokal (localStorage) ---------- */
+const STORE_KEY = 'pajasedu_mathlab_v1';
+function freshSave() { return { sound: true, done: {}, quizBest: {}, history: [], studio: null, seen: [], simShapes: [], cnt: {} }; }
+function loadSave() {
+  try {
+    const s = JSON.parse(localStorage.getItem(STORE_KEY));
+    return Object.assign(freshSave(), s || {});
+  } catch (e) { return freshSave(); }
+}
+let save = loadSave();
+function persist() { try { localStorage.setItem(STORE_KEY, JSON.stringify(save)); } catch (e) { /* abaikan */ } }
+
+/* ---------- Bintang & prestasi ---------- */
+const ACH = [
+  { k: 'pecahan_eksplor', lab: 'pecahan', t: 'Menjelajahi pecahan (Eksplorasi)' },
+  { k: 'pecahan_bandingkan', lab: 'pecahan', t: 'Membandingkan dua pecahan' },
+  { q: 'pecahan_kuis', lab: 'pecahan', t: 'Menyelesaikan Kuis Pecahan (1–3 bintang)' },
+  { k: 'bd_kenal', lab: 'bangun', t: 'Mengenal 8 bangun datar' },
+  { k: 'bd_sisi', lab: 'bangun', t: 'Eksperimen A: menghitung sisi' },
+  { k: 'bd_sudut', lab: 'bangun', t: 'Eksperimen B: mengenal titik sudut' },
+  { k: 'bd_panjang', lab: 'bangun', t: 'Eksperimen C: membandingkan panjang sisi' },
+  { k: 'bd_simetri', lab: 'bangun', t: 'Eksperimen D: menemukan simetri' },
+  { k: 'bd_studio', lab: 'bangun', t: 'Menyelesaikan tantangan Studio' },
+  { k: 'bd_susun_rumah', lab: 'bangun', t: 'Menyusun gambar Rumah' },
+  { k: 'bd_susun_kapal', lab: 'bangun', t: 'Menyusun gambar Kapal' },
+  { k: 'bd_susun_pohon', lab: 'bangun', t: 'Menyusun gambar Pohon' },
+  { k: 'bd_susun_robot', lab: 'bangun', t: 'Menyusun gambar Robot' },
+  { k: 'bd_susun_ikan', lab: 'bangun', t: 'Menyusun gambar Ikan' },
+  { k: 'kel_eksperimen', lab: 'kell', t: 'Eksperimen keliling' },
+  { k: 'kel_tantangan', lab: 'kell', t: 'Tantangan keliling (3 jawaban benar)' },
+  { k: 'luas_eksperimen', lab: 'kell', t: 'Eksperimen luas' },
+  { k: 'luas_tantangan', lab: 'kell', t: 'Tantangan luas (3 jawaban benar)' },
+  { q: 'tantangan_l1', lab: 'tantangan', t: 'Kuis Level 1 – Pemula (1–3 bintang)' },
+  { q: 'tantangan_l2', lab: 'tantangan', t: 'Kuis Level 2 – Menengah (1–3 bintang)' },
+  { q: 'tantangan_l3', lab: 'tantangan', t: 'Kuis Level 3 – Tantangan (1–3 bintang)' }
+];
+function totalStars() {
+  let t = Object.keys(save.done).length;
+  for (const k in save.quizBest) t += save.quizBest[k];
+  return t;
+}
+function labProgress(lab) {
+  let got = 0, max = 0;
+  ACH.filter(a => a.lab === lab).forEach(a => {
+    if (a.k) { max += 1; if (save.done[a.k]) got += 1; } else { max += 3; got += save.quizBest[a.q] || 0; }
+  });
+  return { got, max };
+}
+function updateStars() { const e = $('starCount'); if (e) e.textContent = totalStars(); }
+function awardOnce(key, label) {
+  if (save.done[key]) return false;
+  save.done[key] = true; persist(); updateStars();
+  toast('⭐ Bintang baru: ' + label); sound('win'); celebrate(10);
+  return true;
+}
+function starsFor(correct, total) { const p = correct / total; return p >= 0.9 ? 3 : p >= 0.6 ? 2 : 1; }
+function awardQuiz(key, stars) {
+  const old = save.quizBest[key] || 0;
+  if (stars > old) { save.quizBest[key] = stars; persist(); updateStars(); return stars - old; }
+  return 0;
+}
+function addHistory(lab, correct, total) {
+  save.history.unshift({ lab, correct, total, score: Math.round(correct / total * 100), date: new Date().toISOString() });
+  save.history = save.history.slice(0, 40); persist();
+}
+
+/* ---------- Suara (Web Audio, tanpa file eksternal) ---------- */
+let audioCtx = null;
+function getCtx() {
+  if (!audioCtx) { const C = window.AudioContext || window.webkitAudioContext; if (C) audioCtx = new C(); }
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+function tone(ctx, type, f0, f1, t0, dur, vol) {
+  const o = ctx.createOscillator(), g = ctx.createGain();
+  o.type = type; o.frequency.setValueAtTime(f0, t0);
+  if (f1 !== f0) o.frequency.linearRampToValueAtTime(f1, t0 + dur);
+  g.gain.setValueAtTime(vol, t0); g.gain.exponentialRampToValueAtTime(0.01, t0 + dur);
+  o.connect(g); g.connect(ctx.destination); o.start(t0); o.stop(t0 + dur);
+}
+function sound(type) {
+  if (!save.sound) return;
+  try {
+    const ctx = getCtx(); if (!ctx) return; const t = ctx.currentTime;
+    if (type === 'pop') tone(ctx, 'sine', 380, 680, t, 0.09, 0.14);
+    else if (type === 'click') tone(ctx, 'triangle', 520, 520, t, 0.06, 0.09);
+    else if (type === 'wrong') tone(ctx, 'sawtooth', 220, 150, t, 0.25, 0.09);
+    else if (type === 'win') [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => tone(ctx, 'triangle', f, f, t + i * 0.09, 0.22, 0.12));
+  } catch (e) { /* autoplay dapat diblokir */ }
+}
+function refreshSoundBtn() { $('btnSound').textContent = save.sound ? '🔊 Suara: ON' : '🔇 Suara: OFF'; }
+function toggleSound() { save.sound = !save.sound; persist(); refreshSoundBtn(); sound('pop'); }
+
+/* ---------- Toast, konfeti, modal ---------- */
+let toastTimer = null;
+function toast(msg) {
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+function celebrate(n = 22) {
+  const em = ['⭐', '🎉', '✨', '🌟', '🔷', '🟠'];
+  for (let i = 0; i < n; i++) {
+    const s = document.createElement('div'); s.className = 'confetti'; s.textContent = pick(em);
+    s.style.left = (Math.random() * 96) + 'vw'; s.style.animationDelay = (Math.random() * 0.5) + 's';
+    document.body.appendChild(s); setTimeout(() => s.remove(), 2800);
+  }
+}
+function showModal(html) { $('modalBox').innerHTML = html; $('modal').classList.remove('hidden'); }
+function closeModal() { $('modal').classList.add('hidden'); }
+function showInfo() {
+  sound('click');
+  showModal(`<h2 style="color:#1e40af;margin-bottom:8px">ℹ️ Tentang Aplikasi</h2>
+    <p style="font-weight:700;line-height:1.55"><b>MATH LAB PAJAS-EDU</b> adalah laboratorium matematika digital untuk siswa Sekolah Dasar. Di dalamnya ada Lab Pecahan, Lab Bangun Datar, Lab Keliling dan Luas, serta Tantangan Matematika.</p>
+    <p style="font-weight:700;line-height:1.55">Aplikasi berjalan tanpa internet. Nilai, hasil karya, dan pengaturan suara tersimpan otomatis di perangkat ini.</p>
+    <p style="font-weight:800;margin:10px 0">Pengembang: Jasrin R. Nupura, S.Pd., Gr.</p>
+    <div class="row c"><button class="btn b-blue" onclick="closeModal()">Tutup</button></div>`);
+}
+function confirmBox(msg, yesFn) {
+  window.__yes = () => { closeModal(); yesFn(); };
+  showModal(`<h3 style="margin-bottom:12px">${msg}</h3><div class="row c"><button class="btn b-red" onclick="__yes()">Ya, lanjutkan</button><button class="btn b-gray" onclick="closeModal()">Batal</button></div>`);
+}
+function toggleFullscreen() {
+  sound('click');
+  try {
+    if (!document.fullscreenElement) { (document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen).call(document.documentElement); }
+    else { (document.exitFullscreen || document.webkitExitFullscreen).call(document); }
+  } catch (e) { toast('Layar penuh tidak didukung di perangkat ini.'); }
+}
+
+/* ---------- Pemandu PAJAS-EDU ---------- */
+const AVATAR_SVG = `<svg viewBox="0 0 100 100" width="100%" height="100%">
+  <circle cx="50" cy="50" r="46" fill="#bae6fd"/>
+  <path d="M18 96 Q50 72 82 96Z" fill="#fff" stroke="#94a3b8" stroke-width="3"/>
+  <polygon points="40,80 50,85 40,90" fill="#2563eb"/><polygon points="60,80 50,85 60,90" fill="#2563eb"/><circle cx="50" cy="85" r="3" fill="#1e3a8a"/>
+  <circle cx="50" cy="48" r="24" fill="#fdba74"/>
+  <path d="M24 44 Q18 28 32 26 Q40 14 52 19 Q66 14 72 28 Q84 30 76 44 Q66 30 50 32 Q34 30 24 44Z" fill="#1e293b"/>
+  <circle cx="41" cy="48" r="8" fill="#e0f2fe" stroke="#1e293b" stroke-width="3"/><circle cx="59" cy="48" r="8" fill="#e0f2fe" stroke="#1e293b" stroke-width="3"/>
+  <line x1="49" y1="48" x2="51" y2="48" stroke="#1e293b" stroke-width="3"/>
+  <circle cx="41" cy="48" r="3" fill="#1e293b"/><circle cx="59" cy="48" r="3" fill="#1e293b"/>
+  <path d="M42 62 Q50 69 58 62" fill="none" stroke="#9a3412" stroke-width="3" stroke-linecap="round"/>
+</svg>`;
+function say(msg) { $('guideMsg').textContent = msg; }
+const GUIDE_MSG = {
+  home: 'Selamat datang! Pilih salah satu lab di bawah ini untuk mulai bereksperimen.',
+  pecahan: 'Ayo kita mulai eksperimen! Klik potongan untuk mengarsir pecahan.',
+  bangun: 'Coba perhatikan jumlah sisinya! Pilih menu bangun datar di bawah.',
+  kell: 'Mari menyelidiki keliling dan luas. Ubah ukurannya, lalu lihat hasilnya!',
+  tantangan: 'Pilih level tantangan. Setiap jawaban benar mendapat 10 poin!',
+  petunjuk: 'Baca petunjuk ini supaya kamu mahir memakai laboratorium.'
+};
+
+/* ---------- Navigasi antar lab ---------- */
+const VIEWS = ['home', 'pecahan', 'bangun', 'kell', 'tantangan', 'petunjuk'];
+let currentView = 'home';
+function go(view) {
+  sound('click');
+  stopAllTimers();
+  currentView = view;
+  VIEWS.forEach(v => $('view-' + v).classList.toggle('hidden', v !== view));
+  $('btnHome').classList.toggle('hidden', view === 'home');
+  window.scrollTo(0, 0);
+  const init = {
+    home: renderHome, pecahan: () => pecTab(PEC.tab), bangun: () => bdTab(BD.tab), kell: () => klTab(KL.tab),
+    tantangan: tqMenu, petunjuk: renderPetunjuk
+  };
+  init[view]();
+  say(GUIDE_MSG[view]);
+  fitScreen();
+}
+/* Penghitung waktu (animasi bertahap) dikelola terpusat agar tidak bocor antar menu */
+let timers = [];
+function later(fn, ms) { const id = setTimeout(fn, ms); timers.push(id); return id; }
+function stopAllTimers() { timers.forEach(clearTimeout); timers = []; }
+
+function buildTabs(containerId, defs, active, handlerName) {
+  $(containerId).innerHTML = defs.map(d =>
+    `<button class="tab ${d[0] === active ? 'active' : ''}" id="${containerId}-${d[0]}" onclick="${handlerName}('${d[0]}')">${d[1]} ${d[2]}</button>`).join('');
+}
+function showPanel(prefix, name, names) {
+  names.forEach(n => $(prefix + n).classList.toggle('hidden', n !== name));
+}
+
+/* ---------- Halaman utama ---------- */
+function renderHome() {
+  const defs = [
+    { id: 'pecahan', cls: 'm1', ic: '🍕', t: 'Laboratorium Pecahan', d: 'Arsir pizza dan cokelat, bandingkan dua pecahan, lalu uji dirimu lewat kuis.', lab: 'pecahan' },
+    { id: 'bangun', cls: 'm2', ic: '📐', t: 'Laboratorium Bangun Datar', d: 'Kenali 8 bangun datar, selidiki sifatnya, buat gambarmu, dan susun bangun menjadi gambar.', lab: 'bangun' },
+    { id: 'kell', cls: 'm3', ic: '📏', t: 'Laboratorium Keliling dan Luas', d: 'Telusuri sisi untuk menemukan keliling dan isi kotak satuan untuk menemukan luas.', lab: 'kell' },
+    { id: 'tantangan', cls: 'm4', ic: '🏆', t: 'Tantangan Matematika', d: 'Kuis tiga tingkat: Pemula, Menengah, dan Tantangan. Kumpulkan poin tertinggi!', lab: 'tantangan' },
+    { id: 'petunjuk', cls: 'm6', ic: '📖', t: 'Petunjuk Penggunaan', d: 'Panduan singkat memakai setiap lab dan tombolnya.', lab: null }
+  ];
+  $('menuGrid').innerHTML = defs.map(m => {
+    let prog = '';
+    if (m.lab) { const p = labProgress(m.lab); prog = `<span class="prog">⭐ ${p.got} / ${p.max}</span>`; }
+    return `<button class="mcard ${m.cls}" onclick="go('${m.id}')"><span class="ic">${m.ic}</span><h3>${m.t}</h3><p>${m.d}</p>${prog}</button>`;
+  }).join('');
+}
+
+/* ---------- Seret objek di SVG (mouse & sentuh) ---------- */
+function svgPt(svg, e) {
+  const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+  const m = svg.getScreenCTM(); return m ? pt.matrixTransform(m.inverse()) : { x: 0, y: 0 };
+}
+/* hooks.start(id, p) -> {obj,dx,dy} | null ; hooks.move(obj,x,y) ; hooks.end(obj) */
+function attachDrag(svg, hooks) {
+  let cur = null, off = { dx: 0, dy: 0 };
+  svg.addEventListener('pointerdown', e => {
+    const g = e.target.closest('[data-drag]');
+    if (!g || !svg.contains(g)) { hooks.blank && hooks.blank(); return; }
+    const p = svgPt(svg, e);
+    const o = hooks.start(g.getAttribute('data-drag'), p);
+    if (!o) return;
+    cur = o.obj; off = o; try { svg.setPointerCapture(e.pointerId); } catch (_) { /* abaikan */ }
+    e.preventDefault();
+  });
+  svg.addEventListener('pointermove', e => {
+    if (!cur) return; const p = svgPt(svg, e); hooks.move(cur, p.x + off.dx, p.y + off.dy);
+  });
+  const stop = () => { if (!cur) return; const o = cur; cur = null; hooks.end(o); };
+  svg.addEventListener('pointerup', stop);
+  svg.addEventListener('pointercancel', stop);
+}
+
+/* ---------- Papan angka (untuk jawaban isian, nyaman di layar sentuh) ---------- */
+function numpadHTML(id, okCall) {
+  const k = ['1', '2', '3', '4', '5', '6', '7', '8', '9'].map(n => `<button class="btn b-blue" onclick="npKey('${id}','${n}')">${n}</button>`).join('');
+  return `<div class="numin" id="${id}"></div><div class="numpad">${k}
+    <button class="btn b-red" onclick="npKey('${id}','del')">⌫</button>
+    <button class="btn b-blue" onclick="npKey('${id}','0')">0</button>
+    <button class="btn b-green" onclick="${okCall}">✔ Jawab</button></div>`;
+}
+function npKey(id, k) {
+  sound('click'); const el = $(id); let v = el.textContent;
+  if (k === 'del') v = v.slice(0, -1); else if (v.length < 5) v += k;
+  el.textContent = v;
+}
+
+/* ---------- Data bangun datar (dipakai oleh banyak lab) ---------- */
+const SHAPES = {
+  persegi: { name: 'Persegi', emoji: '🟦', color: '#3b82f6', pts: [[40, 40], [160, 40], [160, 160], [40, 160]], sisi: 4, sudut: 4, sym: 4,
+    desc: 'Keempat sisinya sama panjang dan keempat sudutnya siku-siku (90°). Sisi yang berhadapan sejajar.', contoh: ['Papan catur', 'Ubin lantai', 'Sapu tangan', 'Jendela kotak'] },
+  persegipanjang: { name: 'Persegi Panjang', emoji: '📱', color: '#10b981', pts: [[20, 60], [180, 60], [180, 140], [20, 140]], sisi: 4, sudut: 4, sym: 2,
+    desc: 'Sisi yang berhadapan sama panjang dan sejajar. Keempat sudutnya siku-siku (90°).', contoh: ['Buku tulis', 'Daun pintu', 'Papan tulis', 'Layar HP'] },
+  segitiga: { name: 'Segitiga', emoji: '🔺', color: '#f97316', pts: [[100, 30], [170, 160], [30, 160]], sisi: 3, sudut: 3, sym: 1,
+    desc: 'Memiliki tiga sisi dan tiga titik sudut. Jumlah ketiga sudutnya 180°. (Gambar ini segitiga sama kaki.)', contoh: ['Atap rumah', 'Rambu lalu lintas', 'Tenda', 'Potongan pizza'] },
+  lingkaran: { name: 'Lingkaran', emoji: '🟢', color: '#22c55e', circle: true, sisi: 0, sudut: 0, sym: -1,
+    desc: 'Tidak punya sisi lurus dan tidak punya titik sudut. Semua titik di tepinya berjarak sama dari pusat.', contoh: ['Roda sepeda', 'Uang koin', 'Jam dinding', 'Piring'] },
+  trapesium: { name: 'Trapesium', emoji: '🏺', color: '#a855f7', pts: [[65, 50], [135, 50], [180, 150], [20, 150]], sisi: 4, sudut: 4, sym: 1,
+    desc: 'Memiliki sepasang sisi yang sejajar. Gambar ini trapesium sama kaki.', contoh: ['Ember (tampak samping)', 'Pot bunga (tampak samping)', 'Tas pesta', 'Tempat sampah'] },
+  jajargenjang: { name: 'Jajar Genjang', emoji: '🧱', color: '#ec4899', pts: [[60, 50], [180, 50], [140, 150], [20, 150]], sisi: 4, sudut: 4, sym: 0,
+    desc: 'Sisi yang berhadapan sama panjang dan sejajar. Sudut yang berhadapan sama besar, tetapi tidak siku-siku.', contoh: ['Pola batik', 'Rak miring', 'Pagar lipat (satu ruas)', 'Kue lapis potong miring'] },
+  belahketupat: { name: 'Belah Ketupat', emoji: '🔷', color: '#06b6d4', pts: [[100, 20], [170, 100], [100, 180], [30, 100]], sisi: 4, sudut: 4, sym: 2,
+    desc: 'Keempat sisinya sama panjang. Kedua diagonalnya saling tegak lurus.', contoh: ['Ketupat', 'Hiasan dinding', 'Pola kain', 'Papan permainan'] },
+  layanglayang: { name: 'Layang-Layang', emoji: '🔸', color: '#eab308', pts: [[100, 20], [150, 80], [100, 185], [50, 80]], sisi: 4, sudut: 4, sym: 1,
+    desc: 'Memiliki dua pasang sisi sama panjang yang saling berdekatan. Kedua diagonalnya saling tegak lurus.', contoh: ['Layang-layang mainan', 'Hiasan gantung', 'Bentuk perisai', 'Pola ubin'] }
+};
+const SHAPE_ORDER = ['persegi', 'persegipanjang', 'segitiga', 'lingkaran', 'trapesium', 'jajargenjang', 'belahketupat', 'layanglayang'];
+const POLY_ORDER = SHAPE_ORDER.filter(k => !SHAPES[k].circle);
+
+/* Elemen SVG sebuah bangun pada kotak 200×200 */
+function shapeEl(type, o = {}) {
+  const fill = o.fill || SHAPES[type].color, stroke = o.stroke || '#1e3a8a', sw = o.sw || 3, extra = o.extra || '';
+  const s = SHAPES[type];
+  if (s.circle) return `<circle cx="100" cy="100" r="60" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" ${extra}/>`;
+  return `<polygon points="${s.pts.map(p => p.join(',')).join(' ')}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" stroke-linejoin="round" ${extra}/>`;
+}
+function miniSVG(type, size = 64, fill) {
+  return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">${shapeEl(type, { fill })}</svg>`;
+}
+function buildPicker(containerId, order, activeKey, handler) {
+  $(containerId).innerHTML = order.map(k =>
+    `<button class="pk ${k === activeKey ? 'active' : ''}" onclick="${handler}('${k}')">${miniSVG(k, 40)}<span>${SHAPES[k].name}</span></button>`).join('');
+}
+/* Panjang sisi (dalam satuan gambar) dan titik tengah */
+function edgesOf(type) {
+  const P = SHAPES[type].pts; return P.map((p, i) => { const q = P[(i + 1) % P.length]; return { a: p, b: q, len: Math.hypot(q[0] - p[0], q[1] - p[1]) }; });
+}
+function centroid(P) { return [P.reduce((s, p) => s + p[0], 0) / P.length, P.reduce((s, p) => s + p[1], 0) / P.length]; }
+
+/* ---------- Pas layar: seluruh lab disesuaikan dengan tinggi layar (PID/IFP, laptop, HP) ---------- */
+let fitBusy = false, fitQueued = false, fitZoom = 1;
+function fitScreen() {
+  if (fitBusy) return; fitBusy = true;
+  try {
+    const m = document.querySelector('main'), root = document.documentElement, H = window.innerHeight;
+    m.style.zoom = 1; let z = 1;
+    for (let i = 0; i < 5; i++) {
+      const over = root.scrollHeight - H;
+      if (over <= 1) break;
+      const mh = m.offsetHeight * z; /* tinggi tampilan main saat ini */
+      const target = Math.max(0.45, z * (mh - over - 2) / mh);
+      if (Math.abs(target - z) < 0.005) { z = target; m.style.zoom = z; break; }
+      z = target; m.style.zoom = z;
+    }
+    z = Math.floor(z * 50) / 50 || z; m.style.zoom = z; fitZoom = z;
+  } catch (e) { /* abaikan */ }
+  fitBusy = false;
+}
+function queueFit() { if (fitQueued) return; fitQueued = true; requestAnimationFrame(() => { fitQueued = false; fitScreen(); }); }
+window.addEventListener('resize', queueFit);
+window.addEventListener('orientationchange', queueFit);
+new MutationObserver(queueFit).observe(document.querySelector('main'), { childList: true, subtree: true, characterData: true });
+/* =====================================================================
+   Bagian 2: LAB PECAHAN (Eksplorasi, Bandingkan, Kuis)
+   ===================================================================== */
+const PEC = {
+  tab: 'explore',
+  ex: { shape: 'pizza', num: 1, den: 2, active: [true, false], moves: 0 },
+  cm: { shape: 'pizza', left: { num: 1, den: 2, active: [true, false] }, right: { num: 1, den: 3, active: [true, false, false] }, moves: 0 }
+};
+const PEC_SHAPES = [['pizza', '🍕', 'Pizza'], ['chocolate', '🍫', 'Cokelat'], ['circle', '🟢', 'Lingkaran'], ['square', '🟦', 'Persegi']];
+
+function pecTab(name) {
+  if (name !== PEC.tab) sound('click');
+  PEC.tab = name;
+  buildTabs('pec-tabs', [['explore', '🍕', '1. Eksplorasi Pecahan'], ['compare', '⚖️', '2. Bandingkan Pecahan'], ['quiz', '🏆', '3. Kuis Pecahan']], name, 'pecTab');
+  showPanel('pec-p-', name, ['explore', 'compare', 'quiz']);
+  if (name === 'explore') { exInitUI(); exRender(); say('Klik potongan pizza, cokelat, atau bentuk geometri untuk mengarsir pecahan!'); }
+  if (name === 'compare') { cmInitUI(); cmRender(); say('Pilih dua pecahan, lalu perhatikan jungkat-jungkit dan bagian yang diarsir!'); }
+  if (name === 'quiz') { if (!PQ.q) pqStart(); say('Kuis Pecahan: jawab 5 soal untuk mendapat bintang!'); }
+}
+
+/* ---------- Pembuat gambar pecahan (SVG) ---------- */
+function polar(cx, cy, r, deg) { const a = (deg - 90) * Math.PI / 180; return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) }; }
+function slicePath(cx, cy, r, a0, a1) {
+  const s = polar(cx, cy, r, a1), e = polar(cx, cy, r, a0), large = a1 - a0 <= 180 ? '0' : '1';
+  return ['M', cx, cy, 'L', s.x, s.y, 'A', r, r, 0, large, 0, e.x, e.y, 'Z'].join(' ');
+}
+function gridDims(den) {
+  let cols = den, rows = 1;
+  if (den === 4) { cols = 2; rows = 2; } else if (den === 6) { cols = 3; rows = 2; } else if (den === 8) { cols = 4; rows = 2; }
+  else if (den === 9) { cols = 3; rows = 3; } else if (den === 10) { cols = 5; rows = 2; } else if (den === 12) { cols = 4; rows = 3; }
+  return { cols, rows };
+}
+function fracSVG({ shape, active, handler, ctx = '' }) {
+  const den = active.length, size = 280, cx = 140, cy = 140, r = 116;
+  const clk = i => handler ? `onclick="${handler}(${i},'${ctx}')"` : '';
+  let body = '';
+  if (shape === 'pizza') {
+    const per = 360 / den;
+    if (den === 1) {
+      body = active[0]
+        ? `<g class="svg-slice" ${clk(0)}><circle cx="${cx}" cy="${cy}" r="${r}" fill="#D97706" stroke="#78350F" stroke-width="3"/><circle cx="${cx}" cy="${cy}" r="${r - 15}" fill="#FACC15" stroke="#DC2626" stroke-width="4"/>
+           <circle cx="105" cy="105" r="12" fill="#DC2626"/><circle cx="175" cy="110" r="12" fill="#DC2626"/><circle cx="140" cy="150" r="12" fill="#DC2626"/><circle cx="105" cy="175" r="12" fill="#DC2626"/><circle cx="175" cy="170" r="12" fill="#DC2626"/></g>`
+        : `<g class="svg-slice" ${clk(0)}><circle cx="${cx}" cy="${cy}" r="${r}" fill="#FEF3C7" stroke="#D97706" stroke-width="2.5" stroke-dasharray="6,4"/></g>`;
+    } else {
+      for (let i = 0; i < den; i++) {
+        const a0 = i * per, a1 = (i + 1) * per, mid = a0 + per / 2;
+        const outer = slicePath(cx, cy, r, a0, a1), cheese = slicePath(cx, cy, r - 15, a0, a1);
+        if (active[i]) {
+          const p1 = polar(cx, cy, r * 0.55, mid - per * 0.14), p2 = polar(cx, cy, r * 0.33, mid + per * 0.12), p3 = polar(cx, cy, r * 0.65, mid + per * 0.15);
+          body += `<g class="svg-slice" ${clk(i)}><path d="${outer}" fill="#D97706" stroke="#78350F" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="${cheese}" fill="#FACC15" stroke="#DC2626" stroke-width="3" stroke-linejoin="round"/>
+            <circle cx="${p1.x.toFixed(1)}" cy="${p1.y.toFixed(1)}" r="${den > 8 ? 6 : 9}" fill="#DC2626" stroke="#991B1B" stroke-width="1.5"/>
+            <circle cx="${p2.x.toFixed(1)}" cy="${p2.y.toFixed(1)}" r="${den > 8 ? 5 : 7.5}" fill="#DC2626" stroke="#991B1B" stroke-width="1.5"/>
+            <circle cx="${p3.x.toFixed(1)}" cy="${p3.y.toFixed(1)}" r="4" fill="#15803D"/></g>`;
+        } else {
+          body += `<g class="svg-slice" ${clk(i)}><path d="${outer}" fill="#FEF3C7" fill-opacity="0.55" stroke="#D97706" stroke-width="2" stroke-dasharray="5,4" stroke-linejoin="round"/></g>`;
+        }
+      }
+    }
+    return `<svg viewBox="0 0 ${size} ${size}" class="fsvg"><circle cx="${cx}" cy="${cy}" r="${r + 12}" fill="#FDE68A" stroke="#F59E0B" stroke-width="3"/>${body}</svg>`;
+  }
+  if (shape === 'chocolate') {
+    const { cols, rows } = gridDims(den), padX = 24, padY = rows === 1 ? 65 : 42;
+    const tw = size - padX * 2, th = size - padY * 2, cw = tw / cols, ch = th / rows;
+    for (let i = 0; i < den; i++) {
+      const x = padX + (i % cols) * cw, y = padY + Math.floor(i / cols) * ch;
+      body += active[i]
+        ? `<g class="svg-slice" ${clk(i)}><rect x="${x + 2}" y="${y + 2}" width="${cw - 4}" height="${ch - 4}" rx="8" fill="#78350F" stroke="#451A03" stroke-width="2.5"/>
+           <rect x="${x + 9}" y="${y + 9}" width="${Math.max(8, cw - 18)}" height="${Math.max(8, ch - 18)}" rx="4" fill="#92400E" stroke="#B45309" stroke-width="1.5"/></g>`
+        : `<g class="svg-slice" ${clk(i)}><rect x="${x + 2}" y="${y + 2}" width="${cw - 4}" height="${ch - 4}" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="2" stroke-dasharray="5,4"/></g>`;
+    }
+    return `<svg viewBox="0 0 ${size} ${size}" class="fsvg"><rect x="${padX - 8}" y="${padY - 8}" width="${tw + 16}" height="${th + 16}" rx="14" fill="#FDE047" stroke="#EAB308" stroke-width="3"/>${body}</svg>`;
+  }
+  if (shape === 'circle') {
+    const per = 360 / den;
+    if (den === 1) body = `<g class="svg-slice" ${clk(0)}><circle cx="${cx}" cy="${cy}" r="${r}" fill="${active[0] ? '#10B981' : '#F1F5F9'}" stroke="#047857" stroke-width="3.5"/></g>`;
+    else for (let i = 0; i < den; i++) {
+      const a0 = i * per, a1 = (i + 1) * per, lp = polar(cx, cy, r * 0.62, a0 + per / 2);
+      body += `<g class="svg-slice" ${clk(i)}><path d="${slicePath(cx, cy, r, a0, a1)}" fill="${active[i] ? '#10B981' : '#F8FAFC'}" stroke="#065F46" stroke-width="3" stroke-linejoin="round"/>
+        <text x="${lp.x.toFixed(1)}" y="${lp.y.toFixed(1)}" text-anchor="middle" dominant-baseline="central" fill="${active[i] ? '#fff' : '#64748B'}" font-weight="800" font-size="${den > 8 ? 11 : 14}">1/${den}</text></g>`;
+    }
+    return `<svg viewBox="0 0 ${size} ${size}" class="fsvg"><circle cx="${cx}" cy="${cy}" r="${r + 8}" fill="#D1FAE5" stroke="#34D399" stroke-width="2"/>${body}</svg>`;
+  }
+  /* persegi */
+  const { cols, rows } = gridDims(den), m = 32, bs = size - m * 2, cw = bs / cols, ch = bs / rows;
+  for (let i = 0; i < den; i++) {
+    const x = m + (i % cols) * cw, y = m + Math.floor(i / cols) * ch;
+    body += `<g class="svg-slice" ${clk(i)}><rect x="${x}" y="${y}" width="${cw}" height="${ch}" fill="${active[i] ? '#3B82F6' : '#F8FAFC'}" stroke="#1D4ED8" stroke-width="3"/>
+      <text x="${x + cw / 2}" y="${y + ch / 2}" text-anchor="middle" dominant-baseline="central" fill="${active[i] ? '#fff' : '#64748B'}" font-weight="800" font-size="${den > 8 ? 12 : 15}">1/${den}</text></g>`;
+  }
+  return `<svg viewBox="0 0 ${size} ${size}" class="fsvg"><rect x="${m - 8}" y="${m - 8}" width="${bs + 16}" height="${bs + 16}" rx="12" fill="#DBEAFE" stroke="#60A5FA" stroke-width="2"/>${body}</svg>`;
+}
+const ANGKA = ['Nol', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan', 'Sepuluh', 'Sebelas', 'Dua belas'];
+function fracName(num, den) {
+  if (num === 0) return `"Nol per ${ANGKA[den].toLowerCase()} (kosong / 0)"`;
+  if (num === den) return `"${ANGKA[num]} per ${ANGKA[den].toLowerCase()} (satu utuh)"`;
+  if (num === 1 && den === 2) return '"Satu per dua (setengah)"';
+  if (num === 1 && den === 4) return '"Satu per empat (seperempat)"';
+  return `"${ANGKA[num]} per ${ANGKA[den].toLowerCase()}"`;
+}
+function equivText(num, den) {
+  if (num === 0) return 'Semua pecahan dengan pembilang 0 bernilai 0.';
+  const d = gcd(num, den), sn = num / d, sd = den / d, list = [];
+  for (let m = 1; m <= 4; m++) if (sd * m <= 12) list.push(`${sn * m}/${sd * m}`);
+  return '✨ Pecahan senilai: ' + list.join(' = ');
+}
+function activeArr(num, den) { return Array.from({ length: den }, (_, i) => i < num); }
+
+/* ---------- Mode 1: Eksplorasi ---------- */
+function exInitUI() {
+  $('exShapes').innerHTML = PEC_SHAPES.map(s => `<button class="pk ${PEC.ex.shape === s[0] ? 'active' : ''}" onclick="exShape('${s[0]}')"><span style="font-size:1.6rem">${s[1]}</span><span>${s[2]}</span></button>`).join('');
+  const pre = [[1, 2], [1, 3], [1, 4], [1, 6], [1, 8], [2, 3], [2, 4], [3, 4], [3, 6], [5, 8]];
+  $('exPresets').innerHTML = pre.map(p => `<button class="pk" style="min-height:56px;font-size:1.15rem" onclick="exSet(${p[0]},${p[1]})">${p[0]}/${p[1]}</button>`).join('');
+}
+function exCount() { PEC.ex.moves++; if (PEC.ex.moves >= 6) awardOnce('pecahan_eksplor', 'Menjelajahi pecahan'); }
+function exShape(s) { sound('click'); PEC.ex.shape = s; exInitUI(); exRender(); }
+function exSet(num, den) {
+  sound('pop'); den = clamp(den, 1, 12); num = clamp(num, 0, den);
+  Object.assign(PEC.ex, { num, den, active: activeArr(num, den) }); exCount(); exRender();
+}
+function exNum(d) {
+  const n = PEC.ex.num + d; if (n < 0 || n > PEC.ex.den) { sound('wrong'); return; }
+  sound('pop'); PEC.ex.num = n; PEC.ex.active = activeArr(n, PEC.ex.den); exCount(); exRender();
+}
+function exDen(d) {
+  const n = PEC.ex.den + d; if (n < 1 || n > 12) { sound('wrong'); return; }
+  sound('pop'); PEC.ex.den = n; PEC.ex.num = Math.min(PEC.ex.num, n); PEC.ex.active = activeArr(PEC.ex.num, n); exCount(); exRender();
+}
+function exToggle(i) {
+  sound('pop'); PEC.ex.active[i] = !PEC.ex.active[i]; PEC.ex.num = PEC.ex.active.filter(Boolean).length; exCount(); exRender();
+}
+function exRender() {
+  const { shape, num, den, active } = PEC.ex;
+  $('exploreSvg').innerHTML = fracSVG({ shape, active, handler: 'exToggle' });
+  $('exNum').textContent = num; $('exDen').textContent = den;
+  $('exPct').textContent = Math.round(num / den * 100) + '% Utuh';
+  $('exRead').textContent = fracName(num, den);
+  const nm = { pizza: 'potongan pizza', chocolate: 'kotak cokelat', circle: 'juring lingkaran', square: 'petak persegi' }[shape];
+  $('exMean').innerHTML = `Ada <b>${num} bagian</b> yang diarsir dari total <b>${den} ${nm}</b> yang sama besar.`;
+  $('exEq').textContent = equivText(num, den);
+}
+
+/* ---------- Mode 2: Bandingkan ---------- */
+function cmInitUI() {
+  $('cmShapes').innerHTML = PEC_SHAPES.map(s => `<button class="pk" style="min-height:48px;flex-direction:row;padding:4px 12px;${PEC.cm.shape === s[0] ? 'border-color:#2563eb;background:#eff6ff' : ''}" onclick="cmShape('${s[0]}')">${s[1]} ${s[2]}</button>`).join('');
+  const pr = [[1, 2, 1, 3], [1, 3, 1, 4], [1, 2, 2, 4], [3, 4, 5, 8]];
+  $('cmPairs').innerHTML = pr.map(p => `<button class="btn b-blue b-sm" onclick="cmPair(${p.join(',')})">${p[0]}/${p[1]} vs ${p[2]}/${p[3]}</button>`).join('');
+  const q = side => [2, 3, 4].map(d => `<button class="btn b-gray b-sm" style="min-height:34px;padding:2px 9px" onclick="cmSet('${side}',1,${d})">1/${d}</button>`).join('');
+  $('cmQuickL').innerHTML = q('left'); $('cmQuickR').innerHTML = q('right');
+}
+function cmCount() { PEC.cm.moves++; if (PEC.cm.moves >= 4) awardOnce('pecahan_bandingkan', 'Membandingkan pecahan'); }
+function cmShape(s) { sound('click'); PEC.cm.shape = s; cmInitUI(); cmRender(); }
+function cmSync(side) { const o = PEC.cm[side]; o.active = activeArr(o.num, o.den); }
+function cmSet(side, n, d) { sound('pop'); Object.assign(PEC.cm[side], { num: n, den: d }); cmSync(side); cmCount(); cmRender(); }
+function cmPair(n1, d1, n2, d2) {
+  sound('pop'); Object.assign(PEC.cm.left, { num: n1, den: d1 }); Object.assign(PEC.cm.right, { num: n2, den: d2 });
+  cmSync('left'); cmSync('right'); cmCount(); cmRender();
+}
+function cmAdj(side, dn, dd) {
+  const o = PEC.cm[side], nd = o.den + dd;
+  if (nd < 1 || nd > 12) { sound('wrong'); return; }
+  let nn = o.num + dn; if (dd !== 0 && nn > nd) nn = nd;
+  if (nn < 0 || nn > nd) { sound('wrong'); return; }
+  sound('pop'); o.den = nd; o.num = nn; cmSync(side); cmCount(); cmRender();
+}
+function cmToggle(i, side) {
+  sound('pop'); const o = PEC.cm[side]; o.active[i] = !o.active[i]; o.num = o.active.filter(Boolean).length; cmCount(); cmRender();
+}
+function cmRender() {
+  const { shape, left: L, right: R } = PEC.cm;
+  $('cmSvgL').innerHTML = fracSVG({ shape, active: L.active, handler: 'cmToggle', ctx: 'left' });
+  $('cmSvgR').innerHTML = fracSVG({ shape, active: R.active, handler: 'cmToggle', ctx: 'right' });
+  $('cmNumL').textContent = L.num; $('cmDenL').textContent = L.den; $('cmNumR').textContent = R.num; $('cmDenR').textContent = R.den;
+  const a = L.num * R.den, b = R.num * L.den, sym = $('cmSym'), ver = $('cmVerdict'), ex = $('cmExplain'), beam = $('cmBeam');
+  const A = `${L.num}/${L.den}`, B = `${R.num}/${R.den}`;
+  if (a > b) {
+    sym.innerHTML = '&gt;'; sym.style.background = 'linear-gradient(135deg,#fb923c,#f43f5e)'; beam.style.transform = 'rotate(-12deg)';
+    ver.textContent = `${A} lebih besar dari ${B}`; ex.innerHTML = `Bagian yang diarsir pada <b>Pecahan A (${A})</b> lebih besar daripada <b>Pecahan B (${B})</b>.`;
+  } else if (a < b) {
+    sym.innerHTML = '&lt;'; sym.style.background = 'linear-gradient(135deg,#38bdf8,#2563eb)'; beam.style.transform = 'rotate(12deg)';
+    ver.textContent = `${A} lebih kecil dari ${B}`; ex.innerHTML = `Bagian yang diarsir pada <b>Pecahan A (${A})</b> lebih kecil daripada <b>Pecahan B (${B})</b>.`;
+  } else {
+    sym.innerHTML = '='; sym.style.background = 'linear-gradient(135deg,#34d399,#16a34a)'; beam.style.transform = 'rotate(0deg)';
+    ver.textContent = `${A} sama besar dengan ${B}`; ex.innerHTML = `Hebat! <b>${A}</b> dan <b>${B}</b> adalah <b>pecahan senilai</b> karena luas bagian yang diarsir sama besar.`;
+  }
+  const pl = Math.round(L.num / L.den * 100), pr = Math.round(R.num / R.den * 100);
+  $('cmBarLblL').textContent = `${A} (${pl}%)`; $('cmBarLblR').textContent = `${B} (${pr}%)`;
+  $('cmBarL').style.width = pl + '%'; $('cmBarR').style.width = pr + '%';
+}
+
+/* ---------- Mode 3: Kuis Pecahan (5 soal per putaran) ---------- */
+const PQ = { q: null, no: 1, total: 5, correct: 0, answered: false, slices: [] };
+function pqStart() { PQ.no = 1; PQ.correct = 0; PQ.answered = false; PQ.q = {}; pqNew(); }
+function pqNew() {
+  PQ.answered = false; $('pqFeedback').classList.add('hidden');
+  $('pqNo').textContent = PQ.no; $('pqScore').textContent = PQ.correct;
+  const shapes = ['pizza', 'chocolate', 'circle', 'square'], shape = pick(shapes), type = pick(['identify', 'compare', 'shade']);
+  const dens = [2, 3, 4, 6, 8], den = pick(dens), num = randInt(1, den - 1);
+  const stage = $('pqStage'), ans = $('pqAnswers'), title = $('pqTitle');
+  if (type === 'identify') {
+    $('pqType').textContent = 'Tebak Nilai Pecahan';
+    title.textContent = 'Berapakah nilai pecahan dari bagian yang diarsir di bawah ini?';
+    stage.innerHTML = `<div style="width:240px;height:240px">${fracSVG({ shape, active: activeArr(num, den) })}</div>`;
+    const correct = `${num}/${den}`, opts = new Set([correct]);
+    while (opts.size < 4) { const d = pick(dens), n = randInt(1, d); if (n * den !== num * d) opts.add(`${n}/${d}`); }
+    PQ.q = { type, correct };
+    ans.className = 'optgrid';
+    ans.innerHTML = shuffle([...opts]).map(o => `<button class="opt b-blue" onclick="pqChoice('${o}')">${o}</button>`).join('');
+  } else if (type === 'compare') {
+    $('pqType').textContent = 'Bandingkan Dua Pecahan';
+    const d2 = pick(dens), n2 = randInt(1, d2 - 1);
+    title.textContent = `Manakah tanda yang tepat untuk membandingkan ${num}/${den} dan ${n2}/${d2}?`;
+    stage.innerHTML = `<div class="center"><div style="width:170px;height:170px">${fracSVG({ shape, active: activeArr(num, den) })}</div><b style="font-size:1.6rem;color:#ea580c">${num}/${den}</b></div>
+      <div class="sym" style="width:64px;height:64px;font-size:2.2rem;background:#e9d5ff;color:#6b21a8">?</div>
+      <div class="center"><div style="width:170px;height:170px">${fracSVG({ shape, active: activeArr(n2, d2) })}</div><b style="font-size:1.6rem;color:#0284c7">${n2}/${d2}</b></div>`;
+    const a = num * d2, b = n2 * den; PQ.q = { type, correct: a > b ? '>' : a < b ? '<' : '=' };
+    ans.className = 'optgrid';
+    ans.innerHTML = `<button class="opt b-orange" onclick="pqChoice('&gt;')">&gt; <small style="display:block;font-size:.8rem">Lebih besar</small></button>
+      <button class="opt b-green" onclick="pqChoice('=')">= <small style="display:block;font-size:.8rem">Sama besar</small></button>
+      <button class="opt b-blue" onclick="pqChoice('&lt;')">&lt; <small style="display:block;font-size:.8rem">Lebih kecil</small></button>`;
+  } else {
+    $('pqType').textContent = 'Praktik Mengarsir';
+    const nm = { pizza: 'Pizza', chocolate: 'Cokelat', circle: 'Lingkaran', square: 'Persegi' }[shape];
+    title.innerHTML = `Klik potongan <b>${nm}</b> hingga menunjukkan pecahan <u style="color:#9333ea">${num}/${den}</u>!`;
+    PQ.slices = Array(den).fill(false); PQ.q = { type, shape, num, den };
+    pqShadeRender();
+    ans.className = 'row c';
+    ans.innerHTML = `<button class="btn b-green" onclick="pqCheckShade()" style="min-height:60px;font-size:1.2rem">✔ Periksa Arsiranku!</button>`;
+  }
+}
+function pqShadeRender() {
+  const q = PQ.q, c = PQ.slices.filter(Boolean).length;
+  $('pqStage').innerHTML = `<div class="center"><div style="width:240px;height:240px">${fracSVG({ shape: q.shape, active: PQ.slices, handler: 'pqToggle' })}</div>
+    <span class="pill">Bagian yang kamu arsir: ${c}/${q.den}</span></div>`;
+}
+function pqToggle(i) { if (PQ.answered) return; sound('pop'); PQ.slices[i] = !PQ.slices[i]; pqShadeRender(); }
+function pqCheckShade() {
+  if (PQ.answered) return; const q = PQ.q, c = PQ.slices.filter(Boolean).length;
+  pqResult(c === q.num, `Tepat sekali! Kamu mengarsir ${q.num} dari ${q.den} bagian (${q.num}/${q.den}).`, `Belum tepat, kamu baru mengarsir ${c}/${q.den}. Seharusnya ${q.num} bagian.`);
+}
+function pqChoice(c) {
+  if (PQ.answered) return; const q = PQ.q;
+  pqResult(c === q.correct, `Hebat sekali! Jawaban yang benar adalah ${q.correct}.`, `Kurang tepat. Jawaban yang benar adalah ${q.correct}. Jangan menyerah!`);
+}
+function pqResult(ok, win, lose) {
+  PQ.answered = true; const fb = $('pqFeedback'); fb.classList.remove('hidden');
+  const last = PQ.no >= PQ.total, btn = `<button class="btn b-purple" onclick="pqNext()">${last ? 'Lihat Hasil Akhir' : 'Lanjut Soal Berikutnya'} ➡</button>`;
+  if (ok) { PQ.correct++; sound('win'); celebrate(8); $('pqScore').textContent = PQ.correct; fb.innerHTML = `<div class="infobox okbox fade-in" style="margin-bottom:10px">🎉 ${win}</div>${btn}`; say('Hebat! Kamu berhasil menemukan jawabannya.'); }
+  else { sound('wrong'); fb.innerHTML = `<div class="infobox badbox fade-in" style="margin-bottom:10px">💡 ${lose}</div>${btn}`; say('Jangan menyerah, coba sekali lagi di soal berikutnya!'); }
+}
+function pqNext() {
+  sound('click');
+  if (PQ.no >= PQ.total) { pqFinish(); return; }
+  PQ.no++; pqNew();
+}
+function pqFinish() {
+  const st = starsFor(PQ.correct, PQ.total);
+  awardQuiz('pecahan_kuis', st); addHistory('Kuis Pecahan', PQ.correct, PQ.total);
+  $('pqFeedback').classList.add('hidden'); $('pqTitle').textContent = 'Kuis Pecahan Selesai!'; $('pqType').textContent = 'Hasil Akhir';
+  $('pqStage').innerHTML = `<div class="center"><div style="font-size:4rem">${'⭐'.repeat(st)}${'☆'.repeat(3 - st)}</div>
+    <div class="big">Jawaban benar: ${PQ.correct} dari ${PQ.total}</div><div class="big" style="color:#16a34a">Nilai: ${Math.round(PQ.correct / PQ.total * 100)}</div></div>`;
+  $('pqAnswers').className = 'row c';
+  $('pqAnswers').innerHTML = `<button class="btn b-purple" onclick="pqStart()">🔁 Main Lagi</button><button class="btn b-gray" onclick="go('home')">🏠 Menu Lab</button>`;
+  if (st === 3) { celebrate(30); sound('win'); }
+}
+/* =====================================================================
+   Bagian 3: LAB BANGUN DATAR
+   (Mengenal, Lab Sifat, Studio Pembuat, Susun Bangun)
+   ===================================================================== */
+const BD = { tab: 'kenal', kenal: { idx: 0, zoom: 1 } };
+const BD_TABS = ['kenal', 'sifat', 'studio', 'susun'];
+function bdTab(name) {
+  if (name !== BD.tab) sound('click');
+  BD.tab = name; stopAllTimers();
+  buildTabs('bd-tabs', [['kenal', '📖', '1. Mengenal Bangun'], ['sifat', '🔬', '2. Lab Sifat Bangun'], ['studio', '🎨', '3. Studio Pembuat'], ['susun', '🧩', '4. Susun Bangun']], name, 'bdTab');
+  showPanel('bd-p-', name, BD_TABS);
+  if (name === 'kenal') { kenalRender(); say('Pilih sebuah bangun datar, lalu baca sifat-sifatnya!'); }
+  if (name === 'sifat') { sfTab(SF.exp); say('Ayo kita mulai eksperimen! Sentuh bagian-bagian bangun datar.'); }
+  if (name === 'studio') { studioInit(); say('Seret bentuk di papan untuk membuat gambarmu sendiri!'); }
+  if (name === 'susun') { susunInit(); say('Seret potongan ke siluet yang cocok. Gunakan Petunjuk jika bingung!'); }
+}
+
+/* ---------------------- Modul 1: Mengenal Bangun Datar ---------------------- */
+function kenalPick(key) { sound('pop'); BD.kenal.idx = SHAPE_ORDER.indexOf(key); kenalRender(); }
+function kenalStep(d) { sound('click'); const n = SHAPE_ORDER.length; BD.kenal.idx = (BD.kenal.idx + d + n) % n; kenalRender(); }
+function kenalZoom(d) { sound('click'); BD.kenal.zoom = d === 0 ? 1 : clamp(BD.kenal.zoom + d, 0.6, 1.6); kenalRender(); }
+function kenalTry() { sound('click'); const key = SHAPE_ORDER[BD.kenal.idx]; bdTab('studio'); studioAdd(key); }
+function symText(s) { return s.sym < 0 ? 'tak terhingga' : s.sym === 0 ? 'tidak ada' : s.sym + ' garis simetri lipat'; }
+function kenalRender() {
+  const key = SHAPE_ORDER[BD.kenal.idx], s = SHAPES[key];
+  buildPicker('kenalPicker', SHAPE_ORDER, key, 'kenalPick');
+  const dots = s.circle ? '' : s.pts.map(p => `<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="#f97316" stroke="#fff" stroke-width="2"/>`).join('');
+  $('kenalStage').innerHTML = `<svg viewBox="0 0 200 200" style="width:88%;height:88%;transform:scale(${BD.kenal.zoom});transition:transform .25s">${shapeEl(key)}${dots}</svg>`;
+  $('kenalInfo').innerHTML = `<h3 style="font-size:1.7rem;color:#1e40af">${s.emoji} ${s.name}</h3>
+    <div class="row" style="margin:8px 0"><span class="pill">Jumlah sisi: ${s.sisi}</span><span class="pill" style="background:#ffedd5;color:#9a3412">Titik sudut: ${s.sudut}</span><span class="pill" style="background:#f3e8ff;color:#6b21a8">Simetri: ${symText(s)}</span></div>
+    <div class="infobox" style="margin-bottom:10px">${s.desc}</div>
+    <div class="lbl" style="margin-bottom:4px">Contoh benda di sekitar kita</div>
+    <div class="row">${s.contoh.map(c => `<span class="pill" style="background:#ecfdf5;color:#047857">${c}</span>`).join('')}</div>
+    <div class="lbl" style="margin-top:10px">Sudah dilihat: ${save.seen.length} dari 8 bangun</div>`;
+  if (!save.seen.includes(key)) { save.seen.push(key); persist(); }
+  if (save.seen.length >= 8) awardOnce('bd_kenal', 'Mengenal 8 bangun datar');
+}
+
+/* ---------------------- Modul 3: Lab Sifat Bangun Datar ---------------------- */
+const SF = { exp: 'A', shape: 'persegi', sides: [], verts: [], marks: [], theta: 90, d: 0, found: {}, wasSym: false };
+const SF_COL = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#06b6d4', '#3b82f6', '#a855f7', '#ec4899'];
+function sfTab(exp) {
+  if (exp !== SF.exp) sound('click');
+  SF.exp = exp; SF.sides = []; SF.verts = []; SF.marks = []; SF.wasSym = false;
+  if (exp !== 'D' && SHAPES[SF.shape].circle) SF.shape = 'persegi';
+  buildTabs('sf-tabs', [['A', '🧮', 'A. Hitung Sisi'], ['B', '📍', 'B. Titik Sudut'], ['C', '📏', 'C. Panjang Sisi'], ['D', '🦋', 'D. Simetri']], exp, 'sfTab');
+  sfRender();
+}
+function sfPick(key) { sound('pop'); SF.shape = key; SF.sides = []; SF.verts = []; SF.marks = []; SF.d = 0; SF.wasSym = false; sfRender(); }
+function sfReset() { sound('click'); SF.sides = []; SF.verts = []; SF.marks = []; SF.d = 0; SF.wasSym = false; sfRender(); }
+function outPt(m, c, dist) { const dx = m[0] - c[0], dy = m[1] - c[1], l = Math.hypot(dx, dy) || 1; return [m[0] + dx / l * dist, m[1] + dy / l * dist]; }
+function lenGroups(type) {
+  const E = edgesOf(type), g = [];
+  E.forEach((e, i) => { let f = g.find(x => Math.abs(x.len - e.len) < 1.5); if (!f) { f = { len: e.len, idx: [] }; g.push(f); } f.idx.push(i); });
+  return { E, g };
+}
+function badge(x, y, txt, col) {
+  return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="11" fill="${col}" stroke="#fff" stroke-width="2.5"/><text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-weight="900" font-size="12" fill="#fff">${txt}</text>`;
+}
+function sfRender() {
+  const key = SF.shape, s = SHAPES[key], exp = SF.exp;
+  buildPicker('sfPicker', exp === 'D' ? SHAPE_ORDER : POLY_ORDER, key, 'sfPick');
+  const svg = $('sfSvg'), body = $('sfBody'), title = $('sfTitle');
+  if (exp === 'D') { sfRenderD(); return; }
+  const E = edgesOf(key), C = centroid(s.pts);
+  let h = shapeEl(key, { fill: s.color, sw: 2, stroke: '#94a3b8', extra: 'fill-opacity="0.18"' });
+  if (exp === 'A') {
+    title.textContent = 'Eksperimen A: Menghitung Jumlah Sisi';
+    E.forEach((e, i) => {
+      const k = SF.sides.indexOf(i);
+      h += `<line x1="${e.a[0]}" y1="${e.a[1]}" x2="${e.b[0]}" y2="${e.b[1]}" stroke="${k >= 0 ? SF_COL[k % 8] : '#1e3a8a'}" stroke-width="${k >= 0 ? 9 : 5}" stroke-linecap="round"/>`;
+      if (k >= 0) { const m = outPt([(e.a[0] + e.b[0]) / 2, (e.a[1] + e.b[1]) / 2], C, 16); h += badge(m[0], m[1], k + 1, SF_COL[k % 8]); }
+    });
+    E.forEach((e, i) => { h += `<line class="hot" onclick="sfSide(${i})" x1="${e.a[0]}" y1="${e.a[1]}" x2="${e.b[0]}" y2="${e.b[1]}" stroke="transparent" stroke-width="28" stroke-linecap="round"/>`; });
+    const n = E.length, k = SF.sides.length;
+    body.innerHTML = `<div class="infobox">👆 Sentuh setiap <b>sisi</b> (garis tepi) bangun di samping. Sisi yang disentuh berubah warna dan diberi nomor.</div>
+      <div class="formula center">Sisi yang disentuh: <span style="color:#ea580c;font-size:1.6rem">${k}</span> dari <span style="font-size:1.6rem">${n}</span></div>
+      ${k === n ? `<div class="infobox okbox fade-in">🎉 Hebat! <b>${s.name}</b> memiliki <b>${n} sisi</b>.</div>` : ''}
+      <div class="row"><button class="btn b-orange b-sm" onclick="sfReset()">♻ Ulangi</button></div>`;
+    if (k === n) { awardOnce('bd_sisi', 'Eksperimen menghitung sisi'); }
+  } else if (exp === 'B') {
+    title.textContent = 'Eksperimen B: Mengenal Titik Sudut';
+    s.pts.forEach((p, i) => {
+      const k = SF.verts.indexOf(i);
+      h += k >= 0 ? badge(p[0], p[1], k + 1, '#16a34a').replace('r="11"', 'r="13"') : `<circle cx="${p[0]}" cy="${p[1]}" r="9" fill="#fb923c" stroke="#fff" stroke-width="3"/>`;
+    });
+    s.pts.forEach((p, i) => { h += `<circle class="hot" onclick="sfVert(${i})" cx="${p[0]}" cy="${p[1]}" r="22" fill="transparent"/>`; });
+    const n = s.pts.length, k = SF.verts.length;
+    body.innerHTML = `<div class="infobox">👆 Sentuh setiap <b>titik sudut</b> (pojok) yang berwarna oranye. Titik yang disentuh akan diberi angka urut.</div>
+      <div class="formula center">Titik sudut yang disentuh: <span style="color:#16a34a;font-size:1.6rem">${k}</span> dari <span style="font-size:1.6rem">${n}</span></div>
+      ${k === n ? `<div class="infobox okbox fade-in">🎉 Benar! <b>${s.name}</b> memiliki <b>${n} titik sudut</b>.</div>` : ''}
+      <div class="row"><button class="btn b-orange b-sm" onclick="sfReset()">♻ Ulangi</button></div>`;
+    if (k === n) awardOnce('bd_sudut', 'Eksperimen titik sudut');
+  } else {
+    title.textContent = 'Eksperimen C: Membandingkan Panjang Sisi';
+    const { g } = lenGroups(key);
+    E.forEach((e, i) => {
+      const marked = SF.marks.includes(i), gi = g.findIndex(x => x.idx.includes(i)), col = SF_COL[gi % 8];
+      h += `<line x1="${e.a[0]}" y1="${e.a[1]}" x2="${e.b[0]}" y2="${e.b[1]}" stroke="${marked ? col : '#1e3a8a'}" stroke-width="${marked ? 9 : 5}" stroke-linecap="round"/>`;
+      if (marked) {
+        const m = outPt([(e.a[0] + e.b[0]) / 2, (e.a[1] + e.b[1]) / 2], C, 27);
+        h += `<text x="${m[0].toFixed(1)}" y="${m[1].toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-weight="900" font-size="13" fill="${col}" stroke="#fff" stroke-width="3" paint-order="stroke">${fmt(e.len / 10)} cm</text>`;
+      }
+    });
+    E.forEach((e, i) => { h += `<line class="hot" onclick="sfMark(${i})" x1="${e.a[0]}" y1="${e.a[1]}" x2="${e.b[0]}" y2="${e.b[1]}" stroke="transparent" stroke-width="28" stroke-linecap="round"/>`; });
+    const lines = g.map((x, gi) => {
+      const mk = x.idx.filter(i => SF.marks.includes(i)); if (!mk.length) return '';
+      const names = mk.map(i => 'sisi ' + (i + 1)).join(' dan ');
+      return `<div style="color:${SF_COL[gi % 8]}">● ${mk.length > 1 ? names + ' <b>sama panjang</b>' : names + ' panjangnya'} (${fmt(x.len / 10)} cm)</div>`;
+    }).join('');
+    const all = SF.marks.length === E.length, groupsN = g.length;
+    body.innerHTML = `<div class="infobox">👆 Sentuh sisi-sisi bangun untuk memberi penanda. Sisi dengan <b>warna sama</b> berarti sama panjang.</div>
+      <div class="formula">${lines || 'Belum ada sisi yang ditandai.'}</div>
+      ${all ? `<div class="infobox okbox fade-in">🎉 ${groupsN === 1 ? 'Semua sisinya sama panjang!' : `Ada <b>${groupsN} kelompok</b> panjang sisi yang berbeda pada ${s.name}.`}</div>` : ''}
+      <div class="row"><button class="btn b-blue b-sm" onclick="sfMarkAll()">🖍 Tandai Semua Sisi</button><button class="btn b-orange b-sm" onclick="sfReset()">♻ Ulangi</button></div>`;
+    if (all) awardOnce('bd_panjang', 'Eksperimen panjang sisi');
+  }
+  svg.innerHTML = h;
+}
+function sfSide(i) { if (SF.sides.includes(i)) { sound('click'); return; } sound('pop'); SF.sides.push(i); sfRender(); }
+function sfVert(i) { if (SF.verts.includes(i)) { sound('click'); return; } sound('pop'); SF.verts.push(i); sfRender(); }
+function sfMark(i) { sound('pop'); const k = SF.marks.indexOf(i); if (k >= 0) SF.marks.splice(k, 1); else SF.marks.push(i); sfRender(); }
+function sfMarkAll() { sound('pop'); SF.marks = edgesOf(SF.shape).map((_, i) => i); sfRender(); }
+
+/* Eksperimen D: simetri – pantulkan bangun terhadap sebuah garis, cek apakah menutupi */
+function reflectPt(p, theta, d) {
+  const t = theta * Math.PI / 180, dx = Math.cos(t), dy = Math.sin(t), nx = -dy, ny = dx;
+  const c0 = [100 + nx * d, 100 + ny * d], vx = p[0] - c0[0], vy = p[1] - c0[1], dot = vx * dx + vy * dy;
+  return [2 * (c0[0] + dot * dx) - p[0], 2 * (c0[1] + dot * dy) - p[1]];
+}
+function isSymmetric(type, theta, d) {
+  const s = SHAPES[type];
+  if (s.circle) return Math.abs(d) <= 6;
+  const R = s.pts.map(p => reflectPt(p, theta, d));
+  return R.every(r => s.pts.some(p => Math.hypot(p[0] - r[0], p[1] - r[1]) < 7));
+}
+const SF_ORI = [[90, 'Tegak ↕'], [0, 'Mendatar ↔'], [45, 'Miring ⤡'], [135, 'Miring ⤢']];
+function sfSetTheta(t) { sound('click'); SF.theta = t; SF.wasSym = false; sfRender(); }
+function sfSimMove(v) { SF.d = +v; sfSimDraw(); }
+function sfRenderD() {
+  const key = SF.shape, s = SHAPES[key];
+  $('sfTitle').textContent = 'Eksperimen D: Mengenal Simetri';
+  $('sfBody').innerHTML = `<div class="infobox">🦋 Geser <b>garis simetri</b> (garis putus-putus) dan pilih arahnya. Jika bagian bayangan <b>menutupi</b> bangun dengan pas, garis itu adalah garis simetri!</div>
+    <div class="row">${SF_ORI.map(o => `<button class="btn ${SF.theta === o[0] ? 'b-orange' : 'b-gray'} b-sm" onclick="sfSetTheta(${o[0]})">${o[1]}</button>`).join('')}</div>
+    <div><div class="lbl">Geser posisi garis</div><input class="slider" type="range" min="-90" max="90" step="1" value="${SF.d}" oninput="sfSimMove(this.value)"></div>
+    <div id="sfSimStatus" class="infobox"></div>
+    <div id="sfSimFound" class="formula center"></div>
+    <div class="row"><button class="btn b-orange b-sm" onclick="sfReset()">♻ Ulangi</button></div>`;
+  sfSimDraw();
+}
+function sfSimDraw() {
+  const key = SF.shape, s = SHAPES[key], th = SF.theta, d = SF.d, t = th * Math.PI / 180, dx = Math.cos(t), dy = Math.sin(t), nx = -dy, ny = dx;
+  const c0 = [100 + nx * d, 100 + ny * d], sym = isSymmetric(key, th, d);
+  let h = shapeEl(key, { fill: s.color, sw: 3, extra: 'fill-opacity="0.55"' });
+  if (s.circle) { const r = reflectPt([100, 100], th, d); h += `<circle cx="${r[0].toFixed(1)}" cy="${r[1].toFixed(1)}" r="60" fill="#fb923c" fill-opacity="0.3" stroke="#ea580c" stroke-width="3" stroke-dasharray="7 5"/>`; }
+  else { const R = s.pts.map(p => reflectPt(p, th, d).map(v => v.toFixed(1)).join(',')).join(' '); h += `<polygon points="${R}" fill="#fb923c" fill-opacity="0.3" stroke="#ea580c" stroke-width="3" stroke-dasharray="7 5" stroke-linejoin="round"/>`; }
+  h += `<line x1="${(c0[0] - dx * 160).toFixed(1)}" y1="${(c0[1] - dy * 160).toFixed(1)}" x2="${(c0[0] + dx * 160).toFixed(1)}" y2="${(c0[1] + dy * 160).toFixed(1)}" stroke="${sym ? '#16a34a' : '#dc2626'}" stroke-width="3.5" stroke-dasharray="10 6"/>`;
+  $('sfSvg').innerHTML = h;
+  const st = $('sfSimStatus'), fd = $('sfSimFound'); if (!st) return;
+  if (sym) {
+    st.className = 'infobox okbox'; st.innerHTML = '✅ <b>Garis simetri ditemukan!</b> Bagian kiri dan kanan saling menutupi.';
+    if (!SF.found[key]) SF.found[key] = [];
+    if (!SF.found[key].includes(th)) SF.found[key].push(th);
+    if (!SF.wasSym) {
+      sound('pop'); say('Hebat! Kamu menemukan garis simetri.');
+      if (!save.simShapes.includes(key)) { save.simShapes.push(key); persist(); }
+      if (save.simShapes.length >= 3) awardOnce('bd_simetri', 'Eksperimen simetri');
+    }
+  } else {
+    st.className = 'infobox'; st.innerHTML = s.sym === 0 ? '🤔 Coba geser terus… <b>Jajar genjang</b> tidak punya garis simetri lipat, jadi bayangan tidak pernah menutupi.' : '❌ Belum menutupi. Geser garis atau ubah arahnya.';
+  }
+  SF.wasSym = sym;
+  const found = (SF.found[key] || []).length;
+  fd.innerHTML = s.sym < 0 ? `Garis simetri ditemukan: ${found ? '<span style="color:#16a34a">ada (tak terhingga banyaknya)</span>' : '0'}`
+    : `Garis simetri ditemukan: <span style="color:#16a34a;font-size:1.5rem">${found}</span> dari <span style="font-size:1.5rem">${s.sym}</span>`;
+}
+
+/* ---------------------- Modul 2: Studio Pembuat Bangun Datar ---------------------- */
+const ST = { items: [], sel: null, nid: 1, ch: 0, ready: false };
+const ST_COLORS = ['#ef4444', '#f97316', '#facc15', '#22c55e', '#06b6d4', '#3b82f6', '#a855f7', '#ec4899', '#92400e', '#64748b'];
+const ST_CH = [
+  { key: 'rumah', t: 'Buatlah sebuah rumah!', need: { persegi: 1, persegipanjang: 1, segitiga: 1 }, hint: 'Segitiga sebagai atap, persegi sebagai dinding atau jendela, persegi panjang sebagai pintu.' },
+  { key: 'kapal', t: 'Buatlah sebuah kapal layar!', need: { trapesium: 1, segitiga: 1 }, hint: 'Trapesium sebagai badan kapal (coba putar), segitiga sebagai layar.' },
+  { key: 'pohon', t: 'Buatlah sebuah pohon!', need: { lingkaran: 1, persegipanjang: 1 }, hint: 'Lingkaran sebagai daun yang rimbun, persegi panjang sebagai batang.' },
+  { key: 'robot', t: 'Buatlah sebuah robot!', need: { persegi: 1, persegipanjang: 2, lingkaran: 2 }, hint: 'Persegi sebagai kepala, persegi panjang sebagai badan dan kaki, lingkaran sebagai mata.' }
+];
+function partTf(x, y, s, r) { return `translate(${x} ${y}) rotate(${r}) scale(${s}) translate(-100 -100)`; }
+function studioInit() {
+  if (!ST.ready) {
+    ST.ready = true;
+    if (save.studio && Array.isArray(save.studio.items)) { ST.items = save.studio.items; ST.nid = save.studio.nid || (ST.items.length + 1); }
+    attachDrag($('studioSvg'), {
+      start: (id, p) => {
+        const it = ST.items.find(i => i.id == id); if (!it) return null;
+        ST.sel = it.id; ST.items.splice(ST.items.indexOf(it), 1); ST.items.push(it); studioRender();
+        return { obj: it, dx: it.x - p.x, dy: it.y - p.y };
+      },
+      move: (it, x, y) => { it.x = clamp(x, 0, 800); it.y = clamp(y, 0, 500); studioRender(); },
+      end: () => studioPersist(),
+      blank: () => { ST.sel = null; studioRender(); }
+    });
+  }
+  buildPicker('studioShapes', SHAPE_ORDER, null, 'studioAdd');
+  $('studioColors').innerHTML = ST_COLORS.map(c => `<button class="swatch" style="background:${c}" onclick="studioColor('${c}')"></button>`).join('');
+  studioRender();
+}
+function studioPersist() { save.studio = { items: ST.items, nid: ST.nid }; persist(); }
+function studioAdd(key) {
+  sound('pop');
+  if (ST.items.length >= 40) { toast('Papan sudah penuh. Hapus beberapa bentuk dulu.'); return; }
+  const it = { id: ST.nid++, type: key, x: 400 + rand(160) - 80, y: 250 + rand(100) - 50, s: 0.8, r: 0, color: SHAPES[key].color };
+  ST.items.push(it); ST.sel = it.id; studioPersist(); studioRender();
+}
+function studioSelItem() { return ST.items.find(i => i.id === ST.sel); }
+function studioSize(d) { const it = studioSelItem(); if (!it) { toast('Pilih sebuah bentuk dulu.'); sound('wrong'); return; } sound('pop'); it.s = clamp(it.s + d, 0.25, 2.6); studioPersist(); studioRender(); }
+function studioRot(d) { const it = studioSelItem(); if (!it) { toast('Pilih sebuah bentuk dulu.'); sound('wrong'); return; } sound('pop'); it.r = (it.r + d + 360) % 360; studioPersist(); studioRender(); }
+function studioColor(c) { const it = studioSelItem(); if (!it) { toast('Pilih sebuah bentuk dulu.'); sound('wrong'); return; } sound('pop'); it.color = c; studioPersist(); studioRender(); }
+function studioDel() { const it = studioSelItem(); if (!it) { toast('Pilih sebuah bentuk dulu.'); sound('wrong'); return; } sound('click'); ST.items = ST.items.filter(i => i !== it); ST.sel = null; studioPersist(); studioRender(); }
+function studioReset() { confirmBox('Hapus semua bentuk di papan?', () => { ST.items = []; ST.sel = null; studioPersist(); studioRender(); sound('click'); }); }
+function studioRender() {
+  let h = `<defs><pattern id="gp" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#e2e8f0" stroke-width="1"/></pattern></defs><rect width="800" height="500" fill="#fff"/><rect width="800" height="500" fill="url(#gp)"/>`;
+  if (!ST.items.length) h += `<text x="400" y="250" text-anchor="middle" font-size="26" font-weight="800" fill="#94a3b8">Pilih bentuk di sebelah kanan untuk mulai menggambar</text>`;
+  h += ST.items.map(it => {
+    const sel = it.id === ST.sel;
+    return `<g class="sitem" data-drag="${it.id}" transform="${partTf(it.x, it.y, it.s, it.r)}">${shapeEl(it.type, { fill: it.color, stroke: sel ? '#f59e0b' : '#1e293b', sw: sel ? 5 : 2.5, extra: 'vector-effect="non-scaling-stroke"' })}</g>`;
+  }).join('');
+  $('studioSvg').innerHTML = h;
+  document.querySelectorAll('#studioColors .swatch').forEach(b => { const it = studioSelItem(); b.classList.toggle('on', !!it && b.style.background && it.color && b.getAttribute('style').indexOf(it.color) >= 0); });
+  studioChRender();
+}
+function studioCounts() { const c = {}; ST.items.forEach(i => { c[i.type] = (c[i.type] || 0) + 1; }); return c; }
+function studioChRender() {
+  const ch = ST_CH[ST.ch], cnt = studioCounts();
+  const rows = Object.keys(ch.need).map(k => {
+    const ok = (cnt[k] || 0) >= ch.need[k];
+    return `<div class="chk ${ok ? 'ok' : ''}"><span class="bx">${ok ? '✔' : ''}</span>${SHAPES[k].name} × ${ch.need[k]} <small style="color:#64748b">(ada ${cnt[k] || 0})</small></div>`;
+  }).join('');
+  $('studioChallenge').innerHTML = `<div class="row">${ST_CH.map((c, i) => `<button class="btn ${i === ST.ch ? 'b-orange' : 'b-gray'} b-sm" onclick="studioPickCh(${i})">${['🏠', '⛵', '🌳', '🤖'][i]}</button>`).join('')}</div>
+    <div class="big">${ch.t}</div><div style="font-weight:700;font-size:.92rem">${ch.hint}</div>${rows}
+    <button class="btn b-green" onclick="studioCheck()">✔ Periksa Karya</button>`;
+}
+function studioPickCh(i) { sound('click'); ST.ch = i; studioChRender(); }
+function studioCheck() {
+  const ch = ST_CH[ST.ch], cnt = studioCounts(), ok = Object.keys(ch.need).every(k => (cnt[k] || 0) >= ch.need[k]);
+  if (ok) { sound('win'); celebrate(20); say('Hebat! Kamu berhasil membuat ' + ch.key + ' dari bangun datar.'); toast('🎉 Karya selesai: ' + ch.key); awardOnce('bd_studio', 'Tantangan Studio'); }
+  else { sound('wrong'); say('Jangan menyerah, coba sekali lagi! ' + ch.hint); toast('Masih ada bentuk yang kurang. Lihat daftar centang.'); }
+}
+function download(blob, name) {
+  const url = URL.createObjectURL(blob), a = document.createElement('a'); a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+function studioSave() {
+  sound('click'); const keep = ST.sel; ST.sel = null; studioRender();
+  const svg = $('studioSvg').cloneNode(true); svg.setAttribute('xmlns', NS); svg.setAttribute('width', 1600); svg.setAttribute('height', 1000);
+  const xml = new XMLSerializer().serializeToString(svg); ST.sel = keep; studioRender();
+  const fallback = () => { download(new Blob([xml], { type: 'image/svg+xml' }), 'karya-bangun-datar.svg'); toast('Karya disimpan sebagai gambar SVG.'); };
+  const img = new Image();
+  img.onload = () => {
+    try {
+      const c = document.createElement('canvas'); c.width = 1600; c.height = 1000;
+      const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, 1600, 1000); g.drawImage(img, 0, 0, 1600, 1000);
+      c.toBlob(b => { if (b) { download(b, 'karya-bangun-datar.png'); toast('💾 Karya tersimpan sebagai gambar PNG.'); } else fallback(); }, 'image/png');
+    } catch (e) { fallback(); }
+  };
+  img.onerror = fallback;
+  img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(xml);
+}
+
+/* ---------------------- Modul 7: Permainan Susun Bangun ---------------------- */
+const OX = 60;
+const PZ = [
+  { key: 'rumah', name: 'Rumah', emoji: '🏠', slots: [
+    { t: 'persegi', x: 300, y: 280, s: 1.5, r: 0, c: '#fbbf24' }, { t: 'segitiga', x: 300, y: 112, s: 1.3, r: 0, c: '#ef4444' },
+    { t: 'persegipanjang', x: 300, y: 330, s: 0.5, r: 90, c: '#92400e' }, { t: 'persegi', x: 240, y: 240, s: 0.5, r: 0, c: '#38bdf8' }, { t: 'persegi', x: 360, y: 240, s: 0.5, r: 0, c: '#38bdf8' }] },
+  { key: 'kapal', name: 'Kapal', emoji: '⛵', slots: [
+    { t: 'trapesium', x: 300, y: 320, s: 1.3, r: 180, c: '#92400e' }, { t: 'segitiga', x: 300, y: 159, s: 1.0, r: 0, c: '#e2e8f0' },
+    { t: 'persegipanjang', x: 300, y: 237, s: 0.45, r: 0, c: '#ef4444' }, { t: 'lingkaran', x: 270, y: 320, s: 0.25, r: 0, c: '#bae6fd' }, { t: 'lingkaran', x: 330, y: 320, s: 0.25, r: 0, c: '#bae6fd' }] },
+  { key: 'pohon', name: 'Pohon', emoji: '🌳', slots: [
+    { t: 'lingkaran', x: 300, y: 170, s: 1.5, r: 0, c: '#22c55e' }, { t: 'persegipanjang', x: 300, y: 320, s: 0.8, r: 90, c: '#92400e' },
+    { t: 'lingkaran', x: 260, y: 170, s: 0.25, r: 0, c: '#ef4444' }, { t: 'lingkaran', x: 340, y: 190, s: 0.25, r: 0, c: '#ef4444' }, { t: 'lingkaran', x: 300, y: 120, s: 0.25, r: 0, c: '#ef4444' }] },
+  { key: 'robot', name: 'Robot', emoji: '🤖', slots: [
+    { t: 'persegi', x: 300, y: 90, s: 0.9, r: 0, c: '#94a3b8' }, { t: 'lingkaran', x: 270, y: 85, s: 0.2, r: 0, c: '#fde047' }, { t: 'lingkaran', x: 330, y: 85, s: 0.2, r: 0, c: '#fde047' },
+    { t: 'persegipanjang', x: 300, y: 235, s: 1.1, r: 90, c: '#3b82f6' }, { t: 'persegipanjang', x: 270, y: 355, s: 0.4, r: 90, c: '#475569' }, { t: 'persegipanjang', x: 330, y: 355, s: 0.4, r: 90, c: '#475569' },
+    { t: 'persegipanjang', x: 225, y: 200, s: 0.35, r: 0, c: '#475569' }, { t: 'persegipanjang', x: 375, y: 200, s: 0.35, r: 0, c: '#475569' }] },
+  { key: 'ikan', name: 'Ikan', emoji: '🐟', slots: [
+    { t: 'belahketupat', x: 270, y: 200, s: 1.2, r: 90, c: '#f97316' }, { t: 'segitiga', x: 425, y: 200, s: 0.8, r: 270, c: '#ef4444' },
+    { t: 'segitiga', x: 270, y: 90, s: 0.5, r: 0, c: '#ef4444' }, { t: 'jajargenjang', x: 270, y: 300, s: 0.4, r: 0, c: '#fb923c' }, { t: 'lingkaran', x: 220, y: 185, s: 0.15, r: 0, c: '#111827' }] }
+];
+const SS = { ch: 0, slots: [], pieces: [], hintSlot: null, hintPiece: null, ready: false, won: false };
+function slotKey(o) { return o.t + '|' + o.s + '|' + o.r; }
+function susunInit() {
+  if (!SS.ready) {
+    SS.ready = true;
+    attachDrag($('susunSvg'), {
+      start: (id, p) => {
+        const pc = SS.pieces.find(x => x.id == id); if (!pc || pc.locked) return null;
+        if (pc.mini) { pc.mini = false; pc.x = p.x; pc.y = p.y; }
+        SS.pieces.splice(SS.pieces.indexOf(pc), 1); SS.pieces.push(pc); susunRender();
+        return { obj: pc, dx: pc.x - p.x, dy: pc.y - p.y };
+      },
+      move: (pc, x, y) => { pc.x = clamp(x, 0, 960); pc.y = clamp(y, 0, 420); susunRender(); },
+      end: pc => susunDrop(pc)
+    });
+  }
+  susunLoad(SS.ch);
+}
+function susunPick(i) { sound('click'); SS.ch = i; susunLoad(i); }
+function susunReset() { sound('click'); susunLoad(SS.ch); }
+function susunLoad(i) {
+  stopAllTimers(); const pz = PZ[i]; SS.won = false; SS.hintSlot = null; SS.hintPiece = null;
+  SS.slots = pz.slots.map((o, k) => Object.assign({ id: k, key: slotKey(o), filled: false }, o, { x: o.x + OX }));
+  const order = shuffle(SS.slots.map((_, k) => k));
+  SS.pieces = order.map((k, idx) => {
+    const o = SS.slots[k];
+    return { id: idx, key: o.key, t: o.t, s: o.s, r: o.r, c: o.c, x: 690 + (idx % 2) * 150, y: 80 + Math.floor(idx / 2) * 84, mini: true, locked: false };
+  });
+  $('susunBtns').innerHTML = PZ.map((p, k) => `<button class="btn ${k === i ? 'b-orange' : 'b-gray'}" onclick="susunPick(${k})">${p.emoji} ${p.name} ${save.done['bd_susun_' + p.key] ? '✅' : ''}</button>`).join('');
+  $('susunPrev').innerHTML = SS.slots.map(o => `<g transform="${partTf(o.x, o.y, o.s, o.r)}">${shapeEl(o.t, { fill: o.c, sw: 2.5, extra: 'vector-effect="non-scaling-stroke"' })}</g>`).join('');
+  $('susunMsg').className = 'infobox'; $('susunMsg').innerHTML = `Seret potongan dari kotak di kanan ke siluet <b>${pz.name}</b>. Potongan akan menempel jika posisinya tepat.`;
+  susunRender();
+}
+function susunRender() {
+  let h = `<rect x="610" y="8" width="342" height="404" rx="22" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="3" stroke-dasharray="8 6"/><text x="781" y="32" text-anchor="middle" font-size="17" font-weight="900" fill="#94a3b8">KOTAK POTONGAN</text>`;
+  h += SS.slots.map(o => `<g ${SS.hintSlot === o.id ? 'class="pulse"' : ''} transform="${partTf(o.x, o.y, o.s, o.r)}">${shapeEl(o.t, { fill: '#cbd5e1', stroke: SS.hintSlot === o.id ? '#f59e0b' : '#94a3b8', sw: SS.hintSlot === o.id ? 5 : 2.5, extra: 'fill-opacity=".6" stroke-dasharray="7 5" vector-effect="non-scaling-stroke"' })}</g>`).join('');
+  const ordered = SS.pieces.filter(p => p.locked).concat(SS.pieces.filter(p => !p.locked));
+  h += ordered.map(p => {
+    const sc = p.mini ? clamp(p.s, 0.3, 0.45) : p.s;
+    return `<g class="sitem ${SS.hintPiece === p.id ? 'pulse' : ''}" ${p.locked ? '' : `data-drag="${p.id}"`} transform="${partTf(p.x, p.y, sc, p.r)}" ${p.locked ? 'style="cursor:default"' : ''}>${shapeEl(p.t, { fill: p.c, stroke: SS.hintPiece === p.id ? '#f59e0b' : '#1e293b', sw: SS.hintPiece === p.id ? 5 : 2.5, extra: 'vector-effect="non-scaling-stroke"' })}</g>`;
+  }).join('');
+  $('susunSvg').innerHTML = h;
+  const done = SS.slots.filter(o => o.filled).length, tot = SS.slots.length;
+  $('susunBar').style.width = (done / tot * 100) + '%'; $('susunTxt').textContent = `${done} dari ${tot} bagian terpasang`;
+}
+function susunDrop(pc) {
+  let best = null, bd = 1e9;
+  SS.slots.forEach(o => { if (!o.filled && o.key === pc.key) { const d = Math.hypot(o.x - pc.x, o.y - pc.y); if (d < bd) { bd = d; best = o; } } });
+  if (best && bd < 50) {
+    pc.x = best.x; pc.y = best.y; pc.locked = true; best.filled = true; sound('pop');
+    if (SS.hintPiece === pc.id) { SS.hintPiece = null; SS.hintSlot = null; }
+    susunRender();
+    if (SS.slots.every(o => o.filled)) susunWin();
+  } else { sound('click'); }
+}
+function susunWin() {
+  if (SS.won) return; SS.won = true; const pz = PZ[SS.ch];
+  sound('win'); celebrate(30); say('Luar biasa! Kamu berhasil menyelesaikan tantangan!');
+  $('susunMsg').className = 'infobox okbox fade-in'; $('susunMsg').innerHTML = `🎉 <b>Luar biasa! Kamu berhasil menyelesaikan tantangan!</b> ${pz.emoji}`;
+  awardOnce('bd_susun_' + pz.key, 'Menyusun ' + pz.name);
+  $('susunBtns').innerHTML = PZ.map((p, k) => `<button class="btn ${k === SS.ch ? 'b-orange' : 'b-gray'}" onclick="susunPick(${k})">${p.emoji} ${p.name} ${save.done['bd_susun_' + p.key] ? '✅' : ''}</button>`).join('');
+}
+function susunHint() {
+  sound('click');
+  const free = SS.slots.filter(o => !o.filled); if (!free.length) return;
+  const slot = pick(free), pc = SS.pieces.find(p => !p.locked && p.key === slot.key);
+  SS.hintSlot = slot.id; SS.hintPiece = pc ? pc.id : null; susunRender();
+  $('susunMsg').className = 'infobox'; $('susunMsg').innerHTML = `💡 Petunjuk: pasang bagian yang berkedip ke siluet yang berkedip.`;
+  later(() => { SS.hintSlot = null; SS.hintPiece = null; susunRender(); }, 3000);
+}
+/* =====================================================================
+   Bagian 4: LAB KELILING DAN LUAS
+   ===================================================================== */
+const KL = { tab: 'keliling' };
+function klTab(name) {
+  if (name !== KL.tab) sound('click');
+  KL.tab = name; stopAllTimers();
+  buildTabs('kl-tabs', [['keliling', '📏', '1. Lab Keliling'], ['luas', '🟩', '2. Lab Luas']], name, 'klTab');
+  showPanel('kl-p-', name, ['keliling', 'luas']);
+  if (name === 'keliling') { if (!$('kel-svg')) calcShell('keliling', 'kel'); kelRender(); say('Ubah panjang sisinya, lalu telusuri semua sisi untuk menemukan keliling!'); }
+  else { if (!$('lus-svg')) calcShell('luas', 'lus'); lusRender(); say('Isi kotak satuan untuk menemukan luas bangun datar!'); }
+}
+function calcShell(panel, p) {
+  $('kl-p-' + panel).innerHTML = `<div class="tabs sub" id="${p}-modes"></div>
+    <div class="grid2 eq"><div class="card"><div class="picker" id="${p}-picker"></div>
+      <div class="stage" style="margin-top:12px"><svg id="${p}-svg" viewBox="0 0 600 380" style="width:100%"></svg></div></div>
+      <div class="card col" id="${p}-side"></div></div>`;
+}
+function stepperHTML(p, key, label, val, adjFn) {
+  return `<div class="stepper"><b>${label}</b><div class="row"><button class="btn b-blue b-round" onclick="${adjFn}('${key}',-1)">−</button><span class="sv">${val}</span><button class="btn b-blue b-round" onclick="${adjFn}('${key}',1)">+</button></div></div>`;
+}
+function fitPts(pts, W, H, m) {
+  const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+  const minx = Math.min(...xs), maxx = Math.max(...xs), miny = Math.min(...ys), maxy = Math.max(...ys);
+  const bw = maxx - minx || 1, bh = maxy - miny || 1, sc = Math.min((W - 2 * m) / bw, (H - 2 * m) / bh);
+  const ox = (W - bw * sc) / 2 - minx * sc, oy = (H - bh * sc) / 2 - miny * sc;
+  return { pts: pts.map(p => [p[0] * sc + ox, p[1] * sc + oy]), sc };
+}
+function chalFeedback(p, ok, msg, nextFn) {
+  const fb = $(p + '-fb'); if (!fb) return;
+  fb.innerHTML = `<div class="infobox ${ok ? 'okbox' : 'badbox'} fade-in" style="margin:10px 0">${ok ? '🎉' : '💡'} ${msg}</div><button class="btn b-purple" onclick="${nextFn}()">Soal Berikutnya ➡</button>`;
+}
+
+/* ---------------------- Lab Keliling ---------------------- */
+const KEL_SHAPES = ['persegi', 'persegipanjang', 'segitiga', 'jajargenjang', 'trapesium'];
+const KEL_PARAMS = {
+  persegi: [['s', 'Panjang sisi']], persegipanjang: [['p', 'Panjang'], ['l', 'Lebar']],
+  segitiga: [['a', 'Sisi a'], ['b', 'Sisi b'], ['c', 'Sisi c (alas)']],
+  jajargenjang: [['a', 'Alas (a)'], ['b', 'Sisi miring (b)']], trapesium: [['a', 'Sisi atas (a)'], ['b', 'Sisi bawah (b)'], ['c', 'Kaki (c)']]
+};
+const KEL = {
+  mode: 'exp', shape: 'persegi', chal: null,
+  P: { persegi: { s: 5 }, persegipanjang: { p: 6, l: 4 }, segitiga: { a: 5, b: 6, c: 7 }, jajargenjang: { a: 7, b: 4 }, trapesium: { a: 4, b: 8, c: 5 } }
+};
+function kelGeom(shape, P) {
+  if (shape === 'persegi') { const s = P.s; return { pts: [[0, 0], [s, 0], [s, s], [0, s]], lens: [s, s, s, s] }; }
+  if (shape === 'persegipanjang') { const { p, l } = P; return { pts: [[0, 0], [p, 0], [p, l], [0, l]], lens: [p, l, p, l] }; }
+  if (shape === 'segitiga') {
+    const { a, b, c } = P; if (a + b <= c || a + c <= b || b + c <= a) return null;
+    const x = (b * b + c * c - a * a) / (2 * c), h = Math.sqrt(Math.max(0, b * b - x * x));
+    return { pts: [[0, 0], [c, 0], [x, -h]], lens: [c, a, b] };
+  }
+  if (shape === 'jajargenjang') { const { a, b } = P, h = b * Math.sin(Math.PI / 3), sh = b / 2; return { pts: [[0, 0], [a, 0], [a + sh, -h], [sh, -h]], lens: [a, b, a, b] }; }
+  if (shape === 'trapesium') {
+    const { a, b, c } = P; if (a >= b) return null; const e = (b - a) / 2; if (c <= e) return null;
+    const h = Math.sqrt(c * c - e * e); return { pts: [[0, 0], [b, 0], [b - e, -h], [e, -h]], lens: [b, c, a, c] };
+  }
+  return null;
+}
+function kelWhy(shape) {
+  return shape === 'segitiga' ? 'Ketiga sisi itu tidak bisa membentuk segitiga: jumlah dua sisi harus lebih panjang dari sisi ketiga.'
+    : 'Sisi atas harus lebih pendek dari sisi bawah, dan kaki harus cukup panjang.';
+}
+function kelMarkup(shape, P, hi) {
+  const g = kelGeom(shape, P); if (!g) return '';
+  const F = fitPts(g.pts, 600, 380, 82), Q = F.pts, C = centroid(Q), n = Q.length;
+  let h = `<polygon points="${Q.map(p => p.map(v => v.toFixed(1)).join(',')).join(' ')}" fill="#dbeafe"/>`;
+  for (let i = 0; i < n; i++) {
+    const a = Q[i], b = Q[(i + 1) % n], on = i < hi;
+    h += `<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="${on ? '#f97316' : '#1d4ed8'}" stroke-width="${on ? 11 : 6}" stroke-linecap="round"/>`;
+  }
+  Q.forEach(p => { h += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="7" fill="#fff" stroke="#1e3a8a" stroke-width="3"/>`; });
+  for (let i = 0; i < n; i++) {
+    const a = Q[i], b = Q[(i + 1) % n], o = outPt([(a[0] + b[0]) / 2, (a[1] + b[1]) / 2], C, 40), on = i < hi;
+    h += `<text x="${o[0].toFixed(1)}" y="${o[1].toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="900" fill="${on ? '#c2410c' : '#1e3a8a'}" stroke="#fff" stroke-width="5" paint-order="stroke">${g.lens[i]} cm</text>`;
+  }
+  return h;
+}
+function kelModes(m) { KEL.mode = m; buildTabs('kel-modes', [['exp', '🔬', 'Eksperimen'], ['chal', '🎯', 'Tantangan']], m, 'kelMode'); }
+function kelMode(m) { sound('click'); stopAllTimers(); kelModes(m); if (m === 'chal') kelNewChal(); else kelRender(); }
+function kelPick(s) { sound('pop'); stopAllTimers(); KEL.shape = s; kelRender(); }
+function kelAdj(k, d) {
+  stopAllTimers(); const P = Object.assign({}, KEL.P[KEL.shape]); P[k] += d;
+  if (P[k] < 1 || P[k] > 12) { sound('wrong'); return; }
+  if (!kelGeom(KEL.shape, P)) { sound('wrong'); toast(kelWhy(KEL.shape)); return; }
+  KEL.P[KEL.shape] = P; sound('pop'); kelRender();
+}
+function kelRender() {
+  kelModes(KEL.mode);
+  if (KEL.mode === 'chal') { kelChalRender(); return; }
+  $('kel-picker').classList.remove('hidden');
+  buildPicker('kel-picker', KEL_SHAPES, KEL.shape, 'kelPick');
+  const P = KEL.P[KEL.shape];
+  $('kel-svg').innerHTML = kelMarkup(KEL.shape, P, 0);
+  $('kel-side').innerHTML = `<h3 style="color:#1e40af">Eksperimen Keliling: ${SHAPES[KEL.shape].name}</h3>
+    <div class="infobox">Ubah panjang sisi dengan tombol + dan −. Lalu tekan <b>Hitung Keliling</b> untuk menelusuri semua sisi.</div>
+    ${KEL_PARAMS[KEL.shape].map(d => stepperHTML('kel', d[0], d[1] + ' (cm)', P[d[0]], 'kelAdj')).join('')}
+    <div class="formula" id="kel-sum">Keliling = jumlah panjang semua sisi.</div>
+    <button class="btn b-green" onclick="kelRun()">▶ Hitung Keliling</button>`;
+}
+function kelRun() {
+  stopAllTimers(); sound('click'); const P = KEL.P[KEL.shape], g = kelGeom(KEL.shape, P), n = g.lens.length, tot = g.lens.reduce((a, b) => a + b, 0);
+  $('kel-svg').innerHTML = kelMarkup(KEL.shape, P, 0); $('kel-sum').textContent = 'Menelusuri sisi…';
+  for (let i = 0; i < n; i++) later(() => {
+    $('kel-svg').innerHTML = kelMarkup(KEL.shape, P, i + 1); $('kel-sum').innerHTML = g.lens.slice(0, i + 1).join(' + '); sound('pop');
+  }, (i + 1) * 800);
+  later(() => {
+    $('kel-sum').innerHTML = `${g.lens.join(' + ')} = <span style="color:#16a34a">${tot} cm</span><br>Keliling = ${tot} cm`;
+    say(`Hebat! Keliling ${SHAPES[KEL.shape].name.toLowerCase()} ini adalah ${tot} cm.`); awardOnce('kel_eksperimen', 'Eksperimen keliling');
+  }, (n + 1) * 800);
+}
+function kelNewChal() {
+  stopAllTimers(); sound('click');
+  for (let guard = 0; guard < 200; guard++) {
+    const shape = pick(KEL_SHAPES); let P;
+    if (shape === 'persegi') P = { s: randInt(2, 10) };
+    else if (shape === 'persegipanjang') P = { p: randInt(3, 12), l: randInt(2, 9) };
+    else if (shape === 'segitiga') P = { a: randInt(3, 10), b: randInt(3, 10), c: randInt(3, 10) };
+    else if (shape === 'jajargenjang') P = { a: randInt(4, 12), b: randInt(2, 8) };
+    else P = { a: randInt(2, 6), b: randInt(7, 12), c: randInt(3, 9) };
+    const g = kelGeom(shape, P);
+    if (g && !(shape === 'persegipanjang' && P.p === P.l)) { KEL.chal = { shape, P, lens: g.lens, ans: g.lens.reduce((a, b) => a + b, 0), done: false }; break; }
+  }
+  kelChalRender();
+}
+function kelChalRender() {
+  if (!KEL.chal) { kelNewChal(); return; }
+  const c = KEL.chal; $('kel-picker').classList.add('hidden');
+  $('kel-svg').innerHTML = kelMarkup(c.shape, c.P, 0);
+  $('kel-side').innerHTML = `<h3 style="color:#1e40af">🎯 Tantangan Keliling</h3>
+    <div class="infobox"><b>Berapa keliling bangun datar ini?</b><br><small>${SHAPES[c.shape].name} · jawab dalam cm</small></div>
+    ${numpadHTML('kel-in', 'kelCheck()')}<div id="kel-fb"></div>
+    <div class="lbl center">Jawaban benar tersimpan: ${Math.min(save.cnt.kel || 0, 3)}/3 untuk bintang</div>`;
+}
+function kelCheck() {
+  const c = KEL.chal; if (!c || c.done) return; const v = $('kel-in').textContent;
+  if (v === '') { toast('Ketik jawabanmu dulu.'); sound('wrong'); return; }
+  c.done = true; const ok = parseInt(v, 10) === c.ans, work = `${c.lens.join(' + ')} = ${c.ans} cm`;
+  if (ok) {
+    sound('win'); celebrate(10); save.cnt.kel = (save.cnt.kel || 0) + 1; persist(); say('Hebat! Kamu berhasil menemukan jawabannya.');
+    chalFeedback('kel', true, `Benar! Keliling = ${work}.`, 'kelNewChal'); if (save.cnt.kel >= 3) awardOnce('kel_tantangan', 'Tantangan keliling');
+  } else { sound('wrong'); say('Jangan menyerah, coba sekali lagi!'); chalFeedback('kel', false, `Belum tepat. Jumlahkan semua sisi: ${work}.`, 'kelNewChal'); }
+}
+
+/* ---------------------- Lab Luas ---------------------- */
+const LUS_SHAPES = ['persegi', 'persegipanjang', 'segitiga', 'jajargenjang'];
+const LUS_PARAMS = {
+  persegi: [['s', 'Panjang sisi', 1, 8]], persegipanjang: [['p', 'Panjang', 1, 10], ['l', 'Lebar', 1, 8]],
+  segitiga: [['a', 'Alas', 2, 10], ['t', 'Tinggi', 2, 8]], jajargenjang: [['a', 'Alas', 2, 10], ['t', 'Tinggi', 2, 8]]
+};
+const LSH = 2; /* geseran sisi miring jajar genjang (kotak) */
+const LUS = { mode: 'exp', shape: 'persegipanjang', step: 0, filled: 0, chal: null,
+  P: { persegi: { s: 4 }, persegipanjang: { p: 6, l: 4 }, segitiga: { a: 6, t: 4 }, jajargenjang: { a: 5, t: 3 } } };
+function luasArea(shape, P) {
+  if (shape === 'persegi') return P.s * P.s; if (shape === 'persegipanjang') return P.p * P.l;
+  if (shape === 'segitiga') return P.a * P.t / 2; return P.a * P.t;
+}
+function luasDims(shape, P) {
+  if (shape === 'persegi') return { cols: P.s, rows: P.s }; if (shape === 'persegipanjang') return { cols: P.p, rows: P.l };
+  if (shape === 'segitiga') return { cols: P.a, rows: P.t }; return { cols: P.a + LSH, rows: P.t };
+}
+function luasFormula(shape, P) {
+  const A = fmt(luasArea(shape, P));
+  if (shape === 'persegi') return `Luas = sisi × sisi<br>Luas = ${P.s} × ${P.s} = <span style="color:#16a34a">${A} satuan persegi</span>`;
+  if (shape === 'persegipanjang') return `Luas = panjang × lebar<br>Luas = ${P.p} × ${P.l} = <span style="color:#16a34a">${A} satuan persegi</span>`;
+  if (shape === 'segitiga') return `Luas = ½ × alas × tinggi<br>Luas = ½ × ${P.a} × ${P.t} = <span style="color:#16a34a">${A} satuan persegi</span>`;
+  return `Luas = alas × tinggi<br>Luas = ${P.a} × ${P.t} = <span style="color:#16a34a">${A} satuan persegi</span>`;
+}
+/* Gambar bangun pada kotak satuan. o: {filled, fillAll, step, labels, animate} */
+function luasMarkup(shape, P, o = {}) {
+  const { cols, rows } = luasDims(shape, P), cs = Math.floor(Math.min(450 / cols, 290 / rows)), ox = (600 - cols * cs) / 2, oy = (380 - rows * cs) / 2 + 8;
+  const X = v => ox + v * cs, Y = v => oy + v * cs, poly = pts => pts.map(p => `${X(p[0])},${Y(p[1])}`).join(' ');
+  const step = o.step || 0;
+  let h = `<rect x="${X(0)}" y="${Y(0)}" width="${cols * cs}" height="${rows * cs}" fill="#fff"/>`;
+  if (shape === 'persegi' || shape === 'persegipanjang') {
+    const cnt = o.fillAll ? cols * rows : (o.filled || 0);
+    for (let i = 0; i < cnt; i++) h += `<rect x="${X(i % cols)}" y="${Y(Math.floor(i / cols))}" width="${cs}" height="${cs}" fill="#60a5fa" fill-opacity=".88"/>`;
+  } else if (shape === 'segitiga') {
+    h += `<polygon points="${poly([[0, 0], [P.a, 0], [P.a, P.t]])}" fill="#fdba74" fill-opacity="${step >= 1 ? .75 : 0}" stroke="${step >= 1 ? '#ea580c' : 'none'}" stroke-width="3" stroke-dasharray="8 6"/>`;
+    h += `<polygon points="${poly([[0, P.t], [P.a, P.t], [0, 0]])}" fill="#60a5fa" fill-opacity=".85"/>`;
+  } else {
+    const rest = [[LSH, 0], [LSH, P.t], [P.a, P.t], [P.a + LSH, 0]], tri = [[0, P.t], [LSH, P.t], [LSH, 0]];
+    h += `<polygon points="${poly(rest)}" fill="#60a5fa" fill-opacity=".85"/>`;
+    const tx = step >= 2 ? P.a * cs : 0;
+    h += `<polygon id="moveTri" points="${poly(tri)}" fill="${step >= 1 ? '#fb923c' : '#60a5fa'}" fill-opacity=".9" stroke="${step >= 1 ? '#c2410c' : 'none'}" stroke-width="3" style="transform:translate(${o.animate ? 0 : tx}px,0);transition:transform 1.1s ease-in-out"/>`;
+    if (step >= 1) h += `<line x1="${X(LSH)}" y1="${Y(0)}" x2="${X(LSH)}" y2="${Y(P.t)}" stroke="#7c2d12" stroke-width="3" stroke-dasharray="7 5"/>`;
+    if (step >= 3) h += `<rect x="${X(LSH)}" y="${Y(0)}" width="${P.a * cs}" height="${P.t * cs}" fill="none" stroke="#16a34a" stroke-width="5"/>`;
+  }
+  for (let i = 0; i <= cols; i++) h += `<line x1="${X(i)}" y1="${Y(0)}" x2="${X(i)}" y2="${Y(rows)}" stroke="#94a3b8" stroke-width="1.5" opacity=".7"/>`;
+  for (let j = 0; j <= rows; j++) h += `<line x1="${X(0)}" y1="${Y(j)}" x2="${X(cols)}" y2="${Y(j)}" stroke="#94a3b8" stroke-width="1.5" opacity=".7"/>`;
+  const tx = (x, y, t, anchor = 'middle') => `<text x="${x}" y="${y}" text-anchor="${anchor}" dominant-baseline="central" font-size="21" font-weight="900" fill="#1e3a8a" stroke="#fff" stroke-width="5" paint-order="stroke">${t}</text>`;
+  if (shape === 'persegi' || shape === 'persegipanjang') {
+    h += `<rect x="${X(0)}" y="${Y(0)}" width="${cols * cs}" height="${rows * cs}" fill="none" stroke="#1d4ed8" stroke-width="5"/>`;
+    if (o.labels) { h += shape === 'persegi' ? tx(X(cols / 2), Y(0) - 20, `s = ${P.s}`) + tx(X(cols) + 8, Y(rows / 2), `s = ${P.s}`, 'start') : tx(X(cols / 2), Y(0) - 20, `p = ${P.p}`) + tx(X(cols) + 8, Y(rows / 2), `l = ${P.l}`, 'start'); }
+  } else if (shape === 'segitiga') {
+    h += `<polygon points="${poly([[0, P.t], [P.a, P.t], [0, 0]])}" fill="none" stroke="#1d4ed8" stroke-width="5" stroke-linejoin="round"/>`;
+    if (o.labels) h += tx(X(P.a / 2), Y(P.t) + 16, `alas = ${P.a}`) + tx(X(0) - 8, Y(P.t / 2), `t = ${P.t}`, 'end');
+  } else {
+    h += `<polygon points="${poly([[0, P.t], [P.a, P.t], [P.a + LSH, 0], [LSH, 0]])}" fill="none" stroke="#1d4ed8" stroke-width="5" stroke-linejoin="round"/>`;
+    if (o.labels) h += tx(X(P.a / 2), Y(P.t) + 16, `alas = ${P.a}`) + tx(X(cols) + 8, Y(P.t / 2), `t = ${P.t}`, 'start');
+  }
+  return h;
+}
+function lusModes(m) { LUS.mode = m; buildTabs('lus-modes', [['exp', '🔬', 'Eksperimen'], ['chal', '🎯', 'Tantangan']], m, 'lusMode'); }
+function lusMode(m) { sound('click'); stopAllTimers(); lusModes(m); if (m === 'chal') lusNewChal(); else lusRender(); }
+function lusPick(s) { sound('pop'); stopAllTimers(); LUS.shape = s; LUS.step = 0; LUS.filled = 0; lusRender(); }
+function lusAdj(k, d) {
+  stopAllTimers(); const def = LUS_PARAMS[LUS.shape].find(x => x[0] === k), P = LUS.P[LUS.shape], v = P[k] + d;
+  if (v < def[2] || v > def[3]) { sound('wrong'); return; }
+  P[k] = v; LUS.step = 0; LUS.filled = 0; sound('pop'); lusRender();
+}
+function lusIsRect() { return LUS.shape === 'persegi' || LUS.shape === 'persegipanjang'; }
+function lusMaxStep() { return LUS.shape === 'segitiga' ? 2 : 3; }
+function lusRender() {
+  lusModes(LUS.mode);
+  if (LUS.mode === 'chal') { lusChalRender(); return; }
+  $('lus-picker').classList.remove('hidden'); buildPicker('lus-picker', LUS_SHAPES, LUS.shape, 'lusPick');
+  const P = LUS.P[LUS.shape];
+  $('lus-svg').innerHTML = luasMarkup(LUS.shape, P, { filled: LUS.filled, step: LUS.step, labels: true });
+  const rect = lusIsRect(), done = rect ? LUS.step === 9 : LUS.step >= lusMaxStep();
+  let note;
+  if (rect) note = LUS.step === 9 ? 'Semua kotak sudah terisi dan terhitung.' : LUS.filled ? `Kotak satuan terisi: <b>${LUS.filled}</b>` : 'Tekan tombol untuk mengisi kotak satuan satu per satu.';
+  else if (LUS.shape === 'segitiga') note = ['Ini sebuah segitiga siku-siku pada kotak satuan.', 'Segitiga kembar (oranye) ditambahkan. Keduanya membentuk <b>persegi panjang</b> alas × tinggi.', 'Satu segitiga adalah <b>setengah</b> dari persegi panjang itu.'][LUS.step];
+  else note = ['Ini sebuah jajar genjang pada kotak satuan.', 'Potong segitiga di sebelah kiri (garis putus-putus).', 'Geser segitiga itu ke sisi kanan…', 'Terbentuklah <b>persegi panjang</b> dengan alas dan tinggi yang sama!'][LUS.step];
+  $('lus-side').innerHTML = `<h3 style="color:#1e40af">Eksperimen Luas: ${SHAPES[LUS.shape].name}</h3>
+    ${LUS_PARAMS[LUS.shape].map(d => stepperHTML('lus', d[0], d[1] + ' (satuan)', P[d[0]], 'lusAdj')).join('')}
+    <div class="infobox" id="lus-note">${note}</div>
+    <div class="formula" id="lus-formula">${done ? luasFormula(LUS.shape, P) : 'Luas = ?'}</div>
+    <div class="row">${rect ? `<button class="btn b-green" onclick="lusRun()">▶ Isi Kotak Satuan</button>` : `<button class="btn b-green" onclick="lusNext()" ${done ? 'disabled' : ''}>Langkah Berikutnya ➡</button>`}
+    <button class="btn b-orange" onclick="lusReset()">♻ Ulangi</button></div>`;
+}
+function lusReset() { sound('click'); stopAllTimers(); LUS.step = 0; LUS.filled = 0; lusRender(); }
+function lusRun() {
+  stopAllTimers(); const P = LUS.P[LUS.shape], { cols, rows } = luasDims(LUS.shape, P), total = cols * rows;
+  LUS.step = 0; LUS.filled = 0; $('lus-svg').innerHTML = luasMarkup(LUS.shape, P, { filled: 0, labels: true }); $('lus-formula').textContent = 'Luas = ?';
+  const gap = total > 60 ? 30 : 50;
+  for (let i = 1; i <= total; i++) later(() => {
+    LUS.filled = i; $('lus-svg').innerHTML = luasMarkup(LUS.shape, P, { filled: i, labels: true });
+    $('lus-note').innerHTML = `Kotak satuan terisi: <b>${i}</b>`; if (i % cols === 0) sound('pop');
+  }, i * gap);
+  later(() => {
+    LUS.step = 9; $('lus-note').innerHTML = `Ada <b>${rows} baris</b>, tiap baris berisi <b>${cols} kotak</b>.`;
+    $('lus-formula').innerHTML = luasFormula(LUS.shape, P); say(`Luasnya ${luasArea(LUS.shape, P)} satuan persegi.`);
+    awardOnce('luas_eksperimen', 'Eksperimen luas');
+  }, (total + 1) * gap);
+}
+function lusNext() {
+  if (LUS.step >= lusMaxStep()) return; sound('pop'); LUS.step++;
+  const P = LUS.P[LUS.shape], animate = LUS.shape === 'jajargenjang' && LUS.step === 2;
+  lusRender();
+  if (animate) {
+    $('lus-svg').innerHTML = luasMarkup(LUS.shape, P, { step: 2, labels: true, animate: true });
+    later(() => { const t = $('moveTri'); if (t) t.style.transform = `translate(${P.a * Math.floor(Math.min(450 / (P.a + LSH), 290 / P.t))}px,0)`; }, 60);
+  }
+  if (LUS.step >= lusMaxStep()) awardOnce('luas_eksperimen', 'Eksperimen luas');
+}
+function lusNewChal() {
+  stopAllTimers(); sound('click'); const shape = pick(LUS_SHAPES); let P;
+  if (shape === 'persegi') P = { s: randInt(3, 8) };
+  else if (shape === 'persegipanjang') { do { P = { p: randInt(3, 10), l: randInt(2, 7) }; } while (P.p === P.l); }
+  else if (shape === 'segitiga') { do { P = { a: randInt(3, 10), t: randInt(2, 8) }; } while ((P.a * P.t) % 2 !== 0); }
+  else P = { a: randInt(3, 9), t: randInt(2, 7) };
+  LUS.chal = { shape, P, ans: luasArea(shape, P), done: false }; lusChalRender();
+}
+function lusChalRender() {
+  if (!LUS.chal) { lusNewChal(); return; }
+  const c = LUS.chal; $('lus-picker').classList.add('hidden');
+  $('lus-svg').innerHTML = luasMarkup(c.shape, c.P, { fillAll: true, labels: true });
+  $('lus-side').innerHTML = `<h3 style="color:#1e40af">🎯 Tantangan Luas</h3>
+    <div class="infobox"><b>Berapa luas bangun datar ini?</b><br><small>${SHAPES[c.shape].name} · satu kotak = 1 satuan persegi</small></div>
+    ${numpadHTML('lus-in', 'lusCheck()')}<div id="lus-fb"></div>
+    <div class="lbl center">Jawaban benar tersimpan: ${Math.min(save.cnt.lus || 0, 3)}/3 untuk bintang</div>`;
+}
+function lusCheck() {
+  const c = LUS.chal; if (!c || c.done) return; const v = $('lus-in').textContent;
+  if (v === '') { toast('Ketik jawabanmu dulu.'); sound('wrong'); return; }
+  c.done = true; const ok = parseInt(v, 10) === c.ans, work = luasFormula(c.shape, c.P).replace('<br>', ' → ').replace(/<[^>]+>/g, '');
+  if (ok) {
+    sound('win'); celebrate(10); save.cnt.lus = (save.cnt.lus || 0) + 1; persist(); say('Hebat! Kamu berhasil menemukan jawabannya.');
+    chalFeedback('lus', true, `Benar! ${work}.`, 'lusNewChal'); if (save.cnt.lus >= 3) awardOnce('luas_tantangan', 'Tantangan luas');
+  } else { sound('wrong'); say('Jangan menyerah, coba sekali lagi!'); chalFeedback('lus', false, `Belum tepat. ${work}.`, 'lusNewChal'); }
+}
+/* =====================================================================
+   Bagian 5: TANTANGAN MATEMATIKA, KOLEKSI BINTANG, PETUNJUK, INISIALISASI
+   ===================================================================== */
+const TQ = { level: 1, list: [], idx: 0, correct: 0, wrong: 0, answered: false };
+const TQ_INFO = {
+  1: { t: 'Level 1 – Pemula', ic: '🌱', cls: 'm2', d: 'Mengenali nama bangun datar, menghitung sisi dan titik sudut, serta bentuk benda sehari-hari.' },
+  2: { t: 'Level 2 – Menengah', ic: '🚀', cls: 'm3', d: 'Sifat bangun datar, panjang sisi, keliling sederhana, dan simetri.' },
+  3: { t: 'Level 3 – Tantangan', ic: '👑', cls: 'm4', d: 'Menghitung luas, soal cerita, membandingkan bangun, dan membaca gambar kotak satuan.' }
+};
+function tqMenu() {
+  $('tq-menu').classList.remove('hidden'); $('tq-play').classList.add('hidden'); $('tq-result').classList.add('hidden');
+  $('tq-menu').innerHTML = `<div class="card" style="margin-bottom:16px"><div class="infobox">Setiap level berisi <b>10 soal</b>. Jawaban benar mendapat <b>10 poin</b>. Bintang bergantung pada hasil akhirmu: 1 sampai 3 bintang.</div></div>
+    <div class="menu" style="padding-bottom:10px">${[1, 2, 3].map(l => {
+      const b = save.quizBest['tantangan_l' + l] || 0;
+      return `<button class="mcard ${TQ_INFO[l].cls}" onclick="tqStart(${l})"><span class="ic">${TQ_INFO[l].ic}</span><h3>${TQ_INFO[l].t}</h3><p>${TQ_INFO[l].d}</p><span class="prog">${'⭐'.repeat(b)}${'☆'.repeat(3 - b)} terbaik</span></button>`;
+    }).join('')}</div>`;
+}
+
+/* ---------- Bank soal & pembuat soal ---------- */
+function nameOpts(correct) {
+  const others = shuffle(SHAPE_ORDER.filter(k => k !== correct)).slice(0, 3);
+  return shuffle([correct].concat(others)).map(k => ({ v: k, label: SHAPES[k].name }));
+}
+function numOpts(vals) { return vals.map(n => ({ v: n, label: String(n) })); }
+const BENDA = [
+  ['Papan catur berbentuk …', 'persegi'], ['Roda sepeda berbentuk …', 'lingkaran'], ['Buku tulis berbentuk …', 'persegipanjang'], ['Atap tenda tampak depan berbentuk …', 'segitiga'],
+  ['Layang-layang yang terbang di langit berbentuk …', 'layanglayang'], ['Ketupat berbentuk …', 'belahketupat'], ['Uang koin berbentuk …', 'lingkaran'], ['Ubin lantai yang kotak berbentuk …', 'persegi'],
+  ['Daun pintu berbentuk …', 'persegipanjang'], ['Potongan pizza berbentuk …', 'segitiga']
+];
+function qNama() { const k = pick(SHAPE_ORDER); return { type: 'mcq', prompt: 'Apa nama bangun datar ini?', visual: miniSVG(k, 170), options: nameOpts(k), answer: k, explain: `Bangun ini bernama ${SHAPES[k].name}.` }; }
+function qSisi() {
+  const k = pick(SHAPE_ORDER), s = SHAPES[k];
+  return { type: 'mcq', prompt: `Berapa jumlah sisi pada ${s.name}?`, visual: miniSVG(k, 150), options: numOpts([0, 3, 4, 5]), answer: s.sisi,
+    explain: s.sisi === 0 ? 'Lingkaran tidak memiliki sisi lurus.' : `${s.name} memiliki ${s.sisi} sisi.` };
+}
+function qSudut() {
+  const k = pick(SHAPE_ORDER), s = SHAPES[k];
+  return { type: 'mcq', prompt: `Berapa jumlah titik sudut pada ${s.name}?`, visual: miniSVG(k, 150), options: numOpts([0, 3, 4, 5]), answer: s.sudut,
+    explain: s.sudut === 0 ? 'Lingkaran tidak memiliki titik sudut.' : `${s.name} memiliki ${s.sudut} titik sudut.` };
+}
+function qBenda() { const b = pick(BENDA); return { type: 'mcq', prompt: b[0], visual: '', options: nameOpts(b[1]), answer: b[1], explain: `Bentuknya adalah ${SHAPES[b[1]].name}.` }; }
+function qCocok() {
+  const k = pick(SHAPE_ORDER), ks = shuffle([k].concat(shuffle(SHAPE_ORDER.filter(x => x !== k)).slice(0, 3)));
+  return { type: 'mcq', prompt: `Manakah gambar yang bernama ${SHAPES[k].name}?`, visual: '', options: ks.map(x => ({ v: x, html: miniSVG(x, 90) })), answer: k, explain: `Gambar ${SHAPES[k].name} adalah yang ini.` };
+}
+const TF_BANK = [
+  ['Persegi memiliki empat sisi yang sama panjang.', true, 'Benar, semua sisi persegi sama panjang.'], ['Lingkaran memiliki 4 titik sudut.', false, 'Lingkaran tidak memiliki titik sudut.'],
+  ['Segitiga memiliki 3 sisi dan 3 titik sudut.', true, 'Benar, segitiga punya 3 sisi dan 3 titik sudut.'], ['Jajar genjang memiliki empat sudut siku-siku.', false, 'Sudut jajar genjang tidak siku-siku.'],
+  ['Persegi panjang memiliki dua pasang sisi sejajar.', true, 'Sisi yang berhadapan sejajar, jadi ada dua pasang.'], ['Belah ketupat memiliki empat sisi sama panjang.', true, 'Benar, keempat sisi belah ketupat sama panjang.'],
+  ['Trapesium memiliki dua pasang sisi sejajar.', false, 'Trapesium hanya punya sepasang sisi sejajar.'], ['Layang-layang memiliki dua pasang sisi yang sama panjang.', true, 'Benar, ada dua pasang sisi sama panjang yang berdekatan.'],
+  ['Semua sisi persegi panjang sama panjang.', false, 'Hanya sisi yang berhadapan yang sama panjang.'], ['Persegi memiliki 4 simetri lipat.', true, 'Benar: tegak, mendatar, dan dua diagonal.'],
+  ['Jajar genjang memiliki 2 simetri lipat.', false, 'Jajar genjang tidak memiliki simetri lipat.'], ['Keliling adalah jumlah panjang semua sisi.', true, 'Benar, keliling = jumlah semua sisi.']
+];
+let tfPool = [];
+function qTF() {
+  if (!tfPool.length) tfPool = shuffle(TF_BANK); const b = tfPool.pop();
+  return { type: 'tf', prompt: b[0], visual: '', options: [{ v: true, label: 'Benar' }, { v: false, label: 'Salah' }], answer: b[1], explain: b[2] };
+}
+function qPanjangSisi() {
+  if (rand(2)) { const s = randInt(2, 9); return { type: 'num', prompt: `Sebuah persegi memiliki keliling ${4 * s} cm. Berapa cm panjang sisinya?`, visual: '', answer: s, explain: `Keliling persegi = 4 × sisi, jadi sisi = ${4 * s} ÷ 4 = ${s} cm.` }; }
+  const p = randInt(4, 12), l = randInt(2, p - 1), K = 2 * (p + l);
+  return { type: 'num', prompt: `Sebuah persegi panjang berkeliling ${K} cm dan panjangnya ${p} cm. Berapa cm lebarnya?`, visual: '', answer: l, explain: `Lebar = (keliling ÷ 2) − panjang = ${K / 2} − ${p} = ${l} cm.` };
+}
+function qKeliling() {
+  const t = pick(['persegi', 'persegipanjang', 'segitiga']); let P, shape = t;
+  if (t === 'persegi') P = { s: randInt(2, 10) }; else if (t === 'persegipanjang') { do { P = { p: randInt(3, 12), l: randInt(2, 8) }; } while (P.p === P.l); }
+  else { do { P = { a: randInt(3, 9), b: randInt(3, 9), c: randInt(3, 9) }; } while (!kelGeom('segitiga', P)); }
+  const g = kelGeom(shape, P), ans = g.lens.reduce((a, b) => a + b, 0);
+  return { type: 'num', prompt: `Berapa keliling ${SHAPES[shape].name.toLowerCase()} pada gambar? (cm)`, visual: `<svg viewBox="0 0 600 380" style="width:min(380px,88vw)">${kelMarkup(shape, P, 0)}</svg>`, answer: ans, explain: `Keliling = ${g.lens.join(' + ')} = ${ans} cm.` };
+}
+function qSimetri() {
+  const k = pick(['persegi', 'persegipanjang', 'segitiga', 'trapesium', 'jajargenjang', 'belahketupat', 'layanglayang']), s = SHAPES[k];
+  return { type: 'mcq', prompt: `Berapa banyak simetri lipat pada ${s.name}${k === 'segitiga' ? ' sama kaki (seperti gambar)' : ''}?`, visual: miniSVG(k, 150), options: numOpts([0, 1, 2, 4]), answer: s.sym,
+    explain: s.sym === 0 ? `${s.name} tidak memiliki simetri lipat.` : `${s.name} memiliki ${s.sym} simetri lipat.` };
+}
+function qLuas() {
+  const t = pick(LUS_SHAPES); let P;
+  if (t === 'persegi') P = { s: randInt(2, 9) }; else if (t === 'persegipanjang') { do { P = { p: randInt(3, 10), l: randInt(2, 8) }; } while (P.p === P.l); }
+  else if (t === 'segitiga') { do { P = { a: randInt(3, 10), t: randInt(2, 8) }; } while ((P.a * P.t) % 2); } else P = { a: randInt(3, 9), t: randInt(2, 7) };
+  const ans = luasArea(t, P), work = luasFormula(t, P).replace('<br>', '; ').replace(/<[^>]+>/g, '');
+  return { type: 'num', prompt: `Berapa luas ${SHAPES[t].name.toLowerCase()} pada gambar? (satuan persegi)`, visual: `<svg viewBox="0 0 600 380" style="width:min(420px,90vw)">${luasMarkup(t, P, { fillAll: true, labels: true })}</svg>`, answer: ans, explain: work + '.' };
+}
+function qCerita() {
+  const k = rand(5);
+  if (k === 0) { const p = randInt(5, 15), l = randInt(3, 9); return { type: 'num', prompt: `Pak Budi memiliki kebun berbentuk persegi panjang dengan panjang ${p} m dan lebar ${l} m. Berapa luas kebun itu (m²)?`, visual: '', answer: p * l, explain: `Luas = ${p} × ${l} = ${p * l} m².` }; }
+  if (k === 1) { const s = randInt(5, 20); return { type: 'num', prompt: `Sebuah lapangan berbentuk persegi memiliki sisi ${s} m. Di sekelilingnya dipasang pagar. Berapa meter panjang pagar yang dibutuhkan?`, visual: '', answer: 4 * s, explain: `Keliling = 4 × ${s} = ${4 * s} m.` }; }
+  if (k === 2) { const s = randInt(3, 9); return { type: 'num', prompt: `Lantai kamar berbentuk persegi dengan sisi ${s} m. Berapa luas lantai kamar itu (m²)?`, visual: '', answer: s * s, explain: `Luas = ${s} × ${s} = ${s * s} m².` }; }
+  if (k === 3) { let a, t; do { a = randInt(4, 14); t = randInt(3, 10); } while ((a * t) % 2); return { type: 'num', prompt: `Bendera berbentuk segitiga dengan alas ${a} cm dan tinggi ${t} cm. Berapa luas bendera itu (cm²)?`, visual: '', answer: a * t / 2, explain: `Luas = ½ × ${a} × ${t} = ${a * t / 2} cm².` }; }
+  const p = randInt(10, 30), l = randInt(5, 9); return { type: 'num', prompt: `Ibu memasang pita di sekeliling taplak meja berbentuk persegi panjang berukuran ${p} cm × ${l} cm. Berapa cm panjang pita yang dibutuhkan?`, visual: '', answer: 2 * (p + l), explain: `Keliling = 2 × (${p} + ${l}) = ${2 * (p + l)} cm.` };
+}
+function qBanding() {
+  let s, p, l;
+  if (rand(3) === 0) { const pairs = [[6, 9, 4], [6, 12, 3], [8, 16, 4], [4, 8, 2], [10, 20, 5], [9, 27, 3]]; const c = pick(pairs); s = c[0]; p = c[1]; l = c[2]; }
+  else { s = randInt(3, 9); do { p = randInt(3, 12); l = randInt(2, 8); } while (p === l || s * s === p * l); }
+  const A = s * s, B = p * l, ans = A > B ? 'sq' : A < B ? 'pp' : 'eq';
+  return { type: 'mcq', prompt: `Persegi dengan sisi ${s} cm dan persegi panjang berukuran ${p} cm × ${l} cm. Manakah yang luasnya lebih besar?`,
+    visual: `<div class="row c" style="gap:24px">${miniSVG('persegi', 110)}<b style="font-size:1.4rem">vs</b>${miniSVG('persegipanjang', 110)}</div>`,
+    options: [{ v: 'sq', label: 'Persegi' }, { v: 'pp', label: 'Persegi panjang' }, { v: 'eq', label: 'Sama besar' }, { v: 'x', label: 'Tidak bisa dibandingkan' }], answer: ans,
+    explain: `Luas persegi = ${s} × ${s} = ${A} cm². Luas persegi panjang = ${p} × ${l} = ${B} cm².` };
+}
+function qGambar() {
+  const p = randInt(3, 8), l = randInt(2, 5);
+  return { type: 'num', prompt: 'Setiap kotak adalah 1 satuan persegi. Berapa luas bangun berwarna pada gambar?', visual: `<svg viewBox="0 0 600 380" style="width:min(420px,90vw)">${luasMarkup('persegipanjang', { p, l }, { fillAll: true })}</svg>`, answer: p * l, explain: `Ada ${l} baris dan tiap baris ${p} kotak: ${p} × ${l} = ${p * l}.` };
+}
+function tqBuild(level) {
+  const pools = {
+    1: [qNama, qNama, qSisi, qSudut, qBenda, qBenda, qCocok, qCocok, qSisi, qSudut],
+    2: [qTF, qTF, qPanjangSisi, qPanjangSisi, qKeliling, qKeliling, qKeliling, qSimetri, qSimetri, qTF],
+    3: [qLuas, qLuas, qLuas, qCerita, qCerita, qCerita, qBanding, qBanding, qGambar, qGambar]
+  };
+  return shuffle(pools[level]).map(f => f());
+}
+
+/* ---------- Jalannya kuis ---------- */
+function tqStart(l) {
+  sound('click'); TQ.level = l; TQ.list = tqBuild(l); TQ.idx = 0; TQ.correct = 0; TQ.wrong = 0; TQ.answered = false;
+  $('tq-menu').classList.add('hidden'); $('tq-result').classList.add('hidden'); $('tq-play').classList.remove('hidden'); tqShow();
+}
+function tqShow() {
+  const q = TQ.list[TQ.idx]; TQ.answered = false; const cls = ['b-blue', 'b-orange', 'b-green', 'b-purple'];
+  let ans;
+  if (q.type === 'num') ans = numpadHTML('tq-in', 'tqSubmitNum()');
+  else if (q.type === 'tf') ans = `<div class="optgrid" style="grid-template-columns:1fr 1fr">${q.options.map((o, i) => `<button class="opt ${i ? 'b-red' : 'b-green'}" onclick="tqPick(${i})">${i ? '✘' : '✔'} ${o.label}</button>`).join('')}</div>`;
+  else ans = `<div class="optgrid">${q.options.map((o, i) => `<button class="opt ${o.html ? 'img' : cls[i % 4] + ' txt'}" onclick="tqPick(${i})">${o.html || o.label}</button>`).join('')}</div>`;
+  const head = `<div class="row sb" style="margin-bottom:8px"><div class="row"><span class="pill" style="background:#2563eb;color:#fff">Soal ${TQ.idx + 1}/10</span><span class="pill">${TQ_INFO[TQ.level].t}</span></div>
+      <div class="row"><b style="color:#059669">✔ ${TQ.correct}</b><b style="color:#dc2626">✘ ${TQ.wrong}</b><b>Poin: ${TQ.correct * 10}</b></div></div>
+    <div class="bar-track" style="margin-bottom:10px;height:12px"><div class="bar-fill" style="background:#2563eb;width:${TQ.idx * 10}%"></div></div>
+    <h3 class="center" style="font-size:1.25rem;line-height:1.35;margin-bottom:10px">${q.prompt}</h3>`;
+  const right = `<div id="tq-ans">${ans}</div><div id="tq-fb" class="center"></div>`;
+  $('tq-play').innerHTML = `<div class="card" style="max-width:1100px;margin:0 auto">${head}
+    ${q.visual ? `<div class="grid2 eq" style="align-items:center"><div class="stage" style="padding:8px">${q.visual}</div><div>${right}</div></div>` : `<div style="max-width:760px;margin:0 auto">${right}</div>`}</div>`;
+  say(q.type === 'num' ? 'Hitung dulu, lalu ketik jawabannya dengan papan angka.' : 'Baca soalnya dengan teliti, lalu pilih jawaban yang tepat!');
+}
+function tqPick(i) {
+  if (TQ.answered) return; const q = TQ.list[TQ.idx], ok = q.options[i].v === q.answer;
+  document.querySelectorAll('#tq-ans .opt').forEach((b, k) => { b.classList.add('dim'); if (q.options[k].v === q.answer) { b.classList.remove('dim'); b.classList.add('ok'); } else if (k === i) { b.classList.remove('dim'); b.classList.add('bad'); } });
+  tqAfter(ok, q);
+}
+function tqSubmitNum() {
+  if (TQ.answered) return; const q = TQ.list[TQ.idx], v = $('tq-in').textContent;
+  if (v === '') { toast('Ketik jawabanmu dulu.'); sound('wrong'); return; }
+  tqAfter(parseInt(v, 10) === q.answer, q);
+}
+function tqAfter(ok, q) {
+  TQ.answered = true; const last = TQ.idx >= 9;
+  if (ok) { TQ.correct++; sound('win'); celebrate(10); say('Hebat! Kamu berhasil menemukan jawabannya.'); } else { TQ.wrong++; sound('wrong'); say('Jangan menyerah, coba sekali lagi di soal berikutnya!'); }
+  $('tq-fb').innerHTML = `<div class="infobox ${ok ? 'okbox' : 'badbox'} fade-in" style="margin:14px 0;text-align:left">${ok ? '🎉 <b>Benar! +10 poin.</b>' : '💡 <b>Belum tepat. Jangan menyerah!</b>'}<br>${q.explain}</div>
+    <button class="btn b-purple" onclick="tqNext()">${last ? '🏁 Lihat Nilai Akhir' : 'Soal Berikutnya ➡'}</button>`;
+}
+function tqNext() { sound('click'); if (TQ.idx >= 9) tqFinish(); else { TQ.idx++; tqShow(); } }
+function tqFinish() {
+  const st = starsFor(TQ.correct, 10), nilai = TQ.correct * 10;
+  awardQuiz('tantangan_l' + TQ.level, st); addHistory('Tantangan Level ' + TQ.level, TQ.correct, 10);
+  $('tq-play').classList.add('hidden'); $('tq-result').classList.remove('hidden');
+  const msg = st === 3 ? 'Luar biasa! Kamu juara matematika!' : st === 2 ? 'Bagus sekali! Sedikit lagi sempurna.' : 'Terus berlatih, kamu pasti bisa lebih baik!';
+  $('tq-result').innerHTML = `<div class="card center" style="max-width:640px;margin:0 auto">
+    <h2 style="color:#1e40af">Kuis Selesai!</h2><div style="font-size:3.4rem;margin:8px 0">${'⭐'.repeat(st)}${'☆'.repeat(3 - st)}</div>
+    <div class="row c" style="margin-bottom:10px"><span class="pill" style="background:#d1fae5;color:#047857;font-size:1.1rem">Benar: ${TQ.correct}</span><span class="pill" style="background:#ffe4e6;color:#be123c;font-size:1.1rem">Salah: ${TQ.wrong}</span></div>
+    <div style="font-size:3rem;font-weight:900;color:#16a34a">Nilai ${nilai}</div><p class="big">${msg}</p>
+    <div class="row c"><button class="btn b-blue" onclick="tqStart(${TQ.level})">🔁 Ulangi Level</button><button class="btn b-purple" onclick="tqMenu()">📋 Pilih Level</button><button class="btn b-gray" onclick="go('home')">🏠 Menu Lab</button></div></div>`;
+  if (st === 3) { celebrate(36); sound('win'); }
+  say(msg);
+}
+
+/* ---------- Petunjuk Penggunaan ---------- */
+function renderPetunjuk() {
+  const sec = (ic, t, items) => `<div class="card"><div class="sec-title" style="margin-bottom:8px">${ic} ${t}</div><ul style="margin:0;padding-left:20px;line-height:1.7;font-weight:700">${items.map(i => `<li>${i}</li>`).join('')}</ul></div>`;
+  $('petunjukBody').innerHTML = `<div class="grid2 eq">
+    ${sec('🏠', 'Menu Utama', ['Pilih salah satu kartu lab untuk masuk.', 'Tombol <b>Menu Lab</b> di atas membawamu kembali ke halaman ini dari lab mana pun.', 'Tombol <b>Suara</b> menyalakan atau mematikan efek suara. <b>Layar Penuh</b> cocok untuk papan interaktif.'])}
+    ${sec('🍕', 'Lab Pecahan', ['<b>Eksplorasi:</b> sentuh potongan untuk mengarsir, atau atur pembilang dan penyebut.', '<b>Bandingkan:</b> atur dua pecahan, lihat tanda &gt;, &lt;, atau = dan jungkat-jungkitnya.', '<b>Kuis:</b> 5 soal, bintang diberikan sesuai hasilmu.'])}
+    ${sec('📐', 'Lab Bangun Datar', ['<b>Mengenal Bangun:</b> pilih bangun, baca sifatnya, perbesar dengan tombol + dan −.', '<b>Lab Sifat:</b> sentuh sisi, titik sudut, dan sisi sama panjang. Pada Simetri, geser garis sampai bayangan menutupi.', '<b>Studio:</b> tambah bentuk, seret untuk menggeser, ubah ukuran dan warna, lalu simpan karyamu.', '<b>Susun Bangun:</b> seret potongan ke siluet. Tekan Petunjuk bila bingung.'])}
+    ${sec('📏', 'Lab Keliling dan Luas', ['Ubah ukuran dengan tombol + dan −, lalu tekan tombol hitung untuk melihat prosesnya.', 'Pada mode <b>Tantangan</b>, hitung sendiri lalu ketik jawaban dengan papan angka.', 'Tiga jawaban benar pada tantangan memberi 1 bintang.'])}
+    ${sec('🏆', 'Tantangan Matematika', ['Pilih level, jawab 10 soal. Tiap jawaban benar bernilai 10 poin.', 'Jika salah, penjelasan jawaban yang benar akan muncul.', 'Nilai terbaik dan riwayatmu tersimpan otomatis.'])}
+    ${sec('💾', 'Penyimpanan', ['Nilai terbaik dan hasil Studio tersimpan di perangkat ini dan tetap ada saat aplikasi dibuka lagi.', 'Aplikasi tidak memerlukan internet.', 'Menghapus data browser akan menghapus progres.'])}
+  </div>`;
+}
+
+/* ---------- Mulai aplikasi ---------- */
+document.querySelectorAll('[data-avatar]').forEach(e => { e.innerHTML = AVATAR_SVG; });
+refreshSoundBtn(); updateStars(); renderHome(); say(GUIDE_MSG.home);
+window.addEventListener('error', e => { try { console.warn('Galat tertangkap:', e.message); } catch (_) { /* abaikan */ } });
+
+</script>
+</body>
+</html>
